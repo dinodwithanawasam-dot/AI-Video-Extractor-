@@ -9,7 +9,7 @@ An autonomous AI agent designed to process long-form interview videos and automa
 - **Accurate Transcription**: Powered by OpenAI Whisper for precise timestamped text extraction.
 - **LLM-Driven Semantic Algorithm**: Uses GPT-4o-mini (via LangChain) to semantically analyze the transcript and find the most engaging 20-30 second moments.
 - **Automated Video Editing**: Automatically cuts and merges the selected timestamps into final MP4 deliverables.
-- **Beautiful Web UI**: Fully interactive frontend built with Streamlit.
+- **FastAPI High-Performance Backend**: fully asynchronous API with zero-latency Whisper model pre-loading for rapid inference.
 
 ## 🚀 Quick Start
 
@@ -31,10 +31,12 @@ OPENAI_API_KEY="sk-your-openai-api-key-here"
 *(Optional)* You can tweak model parameters, reel duration, and download resolutions in `config/params.yaml`.
 
 ### 4. Running the App
-Launch the interactive Streamlit Web UI (Executable Demo):
+Launch the FastAPI server (with Uvicorn):
 ```bash
-streamlit run app.py
+uvicorn api:app --reload
 ```
+Once running, you can test the API and access the interactive Swagger UI at:
+[http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
 
 Or run the pipeline headlessly via CLI:
 ```bash
