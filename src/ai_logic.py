@@ -7,10 +7,10 @@ from pydantic import BaseModel, Field
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
 
-from config import CONFIG, LLM_CONFIG, GEMINI_API_KEY
+from config import CONFIG, LLM_CONFIG, OPENAI_API_KEY
 from log import get_logger
 
-from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 
@@ -31,14 +31,14 @@ class HighlightsSummary(BaseModel):
     reels: list[ReelSegment] = Field(description="Exactly 2 or 3 engaging segments. Each segment MUST be between 20 and 30 seconds long (end_time - start_time >= 20 AND end_time - start_time <= 30).")
 
 def get_llm():
-    if not GEMINI_API_KEY:
-        logger.error("GEMINI_API_KEY is not set in the environment variables.")
-        raise ValueError("Please set GEMINI_API_KEY in your .env file")
+    if not OPENAI_API_KEY:
+        logger.error("OPENAI_API_KEY is not set in the environment variables.")
+        raise ValueError("Please set OPENAI_API_KEY in your .env file")
         
-    return ChatGoogleGenerativeAI(
-        model=LLM_CONFIG.get("model_name", "gemini-1.5-flash"),
+    return ChatOpenAI(
+        model=LLM_CONFIG.get("model_name", "gpt-4o-mini"),
         temperature=LLM_CONFIG.get("temperature", 0.7),
-        google_api_key=GEMINI_API_KEY
+        openai_api_key=OPENAI_API_KEY
     )
 
 async def analyze_transcript(transcript_segments: list[dict]) -> dict:

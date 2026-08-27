@@ -32,5 +32,4 @@ os.makedirs(ROOT_DIR / PATHS_CONFIG.get("input_dir", "data/input"), exist_ok=Tru
 os.makedirs(ROOT_DIR / PATHS_CONFIG.get("output_dir", "data/output"), exist_ok=True)
 os.makedirs(ROOT_DIR / PATHS_CONFIG.get("temp_dir", "data/temp"), exist_ok=True)
 
-# Access Environment Variables easily
-GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

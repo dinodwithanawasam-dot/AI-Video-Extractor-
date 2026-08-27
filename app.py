@@ -44,8 +44,8 @@ else:
 if st.button("Start Processing"):
     if not video_source:
         st.error("Please provide a valid video source first.")
-    elif not os.getenv("GEMINI_API_KEY") and not st.secrets.get("GEMINI_API_KEY", ""):
-        st.error("GEMINI_API_KEY is not set. Please make sure your .env file has the API key.")
+    elif not os.getenv("OPENAI_API_KEY") and not st.secrets.get("OPENAI_API_KEY", ""):
+        st.error("OPENAI_API_KEY is not set. Please make sure your .env file has the API key.")
     else:
         try:
             with st.status("Pipeline Execution in Progress...", expanded=True) as status:

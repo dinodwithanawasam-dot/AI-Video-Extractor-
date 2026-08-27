@@ -1,6 +1,6 @@
-# LLM Configuration (Google Gemini)
+# LLM Configuration (OpenAI)
 llm:
-  model_name: "gemini-3.7-flash" # Fast and capable Gemini model
+  model_name: "gpt-4o-mini" # Fast and capable OpenAI model
   temperature: 0.7
   max_tokens: 2000
 

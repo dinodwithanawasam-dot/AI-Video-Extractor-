@@ -8,7 +8,7 @@ An autonomous AI agent designed to process long-form interview videos and automa
 - **FastAPI High-Performance Backend**: Fully asynchronous API with zero-latency Whisper model pre-loading for rapid inference.
 - **URL & Local File Support**: Directly download from YouTube or process local MP4 files.
 - **Accurate Transcription**: Powered by OpenAI Whisper for precise timestamped text extraction.
-- **LLM-Driven Semantic Algorithm**: Uses **Google Gemini** (via LangChain) to semantically analyze the transcript and find the most engaging 20-30 second moments.
+- **LLM-Driven Semantic Algorithm**: Uses **OpenAI GPT-4o-mini** (via LangChain) to semantically analyze the transcript and find the most engaging 20-30 second moments.
 - **Automated Video Editing**: Automatically cuts and merges the selected timestamps into final MP4 deliverables.
 
 ## 🚀 End-to-End Setup & Run Guide
@@ -36,12 +36,12 @@ pip install -r requirements.txt
 ```
 
 ### 3. Environment Configuration
-Create a `.env` file in the root directory of the project and add your Google Gemini API Key:
+Create a `.env` file in the root directory of the project and add your OpenAI API Key:
 ```env
-GEMINI_API_KEY="your-gemini-api-key-here"
+OPENAI_API_KEY="sk-your-openai-api-key-here"
 ```
 
-*(Optional)* You can tweak the Gemini model name (e.g., `gemini-1.5-flash`), reel duration, and download resolutions inside the `config/params.yaml` file.
+*(Optional)* You can tweak the OpenAI model name (e.g., `gpt-4o-mini`), reel duration, and download resolutions inside the `config/params.yaml` file.
 
 ### 4. Starting the Server
 The core application runs as a high-performance **FastAPI** server. Start the server using Uvicorn:
@@ -65,10 +65,10 @@ Once the server is running, you can easily test the end-to-end pipeline using th
    }
    ```
 5. Click **"Execute"**. 
-6. The server will run the ingestion, transcription, Gemini analysis, and video editing concurrently. Once finished, you will receive a JSON response containing the AI summary and the file paths to your generated highlight MP4s and Reels!
+6. The server will run the ingestion, transcription, OpenAI analysis, and video editing concurrently. Once finished, you will receive a JSON response containing the AI summary and the file paths to your generated highlight MP4s and Reels!
 
 ## 🧠 How the Algorithmic Logic Works
-The system avoids traditional audio-peak detection and instead uses **Semantic Analysis**. The Whisper transcript is fed into the Google Gemini LLM with a strict system prompt. The AI reads the context and selects segments that are:
+The system avoids traditional audio-peak detection and instead uses **Semantic Analysis**. The Whisper transcript is fed into the OpenAI LLM with a strict system prompt. The AI reads the context and selects segments that are:
 1. Emotionally engaging or highly informative.
 2. Strictly between 20 and 30 seconds.
 3. Logically complete (no cutting mid-sentence).
