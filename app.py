@@ -2,6 +2,7 @@ import streamlit as st
 import os
 import sys
 import asyncio
+import subprocess
 from pathlib import Path
 
 # Setup paths
@@ -53,6 +54,27 @@ if st.button("Start Processing"):
                 video_path, audio_path = process_video_input(video_source)
                 st.write(f"✔️ Video loaded: `{Path(video_path).name}`")
                 
+                output_dir = ROOT_DIR / "data" / "output"
+                output_dir.mkdir(parents=True, exist_ok=True)
+                
+                st.write("⏳ Step 1.5/4: Applying Noise Cancellation to Video...")
+                denoised_video_path = output_dir / f"{Path(video_path).stem}_denoised.mp4"
+                cmd = [
+                    "ffmpeg", "-y",
+                    "-i", video_path,
+                    "-c:v", "copy",
+                    "-af", "afftdn=nf=-25",
+                    "-c:a", "aac",
+                    "-b:a", "192k",
+                    str(denoised_video_path)
+                ]
+                try:
+                    subprocess.run(cmd, capture_output=True, check=True)
+                    video_path = str(denoised_video_path)
+                    st.write(f"✔️ Denoised video created: `{Path(video_path).name}`")
+                except Exception as e:
+                    st.warning(f"⚠️ Failed to create denoised video: {e}")
+                
                 st.write("⏳ Step 2/4: Transcribing Audio with Whisper (This may take a while)...")
                 transcript_segments = transcribe_audio(audio_path)
                 st.write("✔️ Transcription complete!")
@@ -60,6 +82,15 @@ if st.button("Start Processing"):
                 st.write("⏳ Step 3/4: Analyzing Transcript with LLM...")
                 ai_analysis = asyncio.run(analyze_transcript(transcript_segments))
                 st.write("✔️ AI Analysis complete!")
+                
+                st.write("⏳ Step 3.5/4: Generating Article...")
+                from src.article_generator import generate_article_from_json
+                article_path = output_dir / f"{Path(video_path).stem}_article.md"
+                try:
+                    asyncio.run(generate_article_from_json(ai_analysis, str(article_path)))
+                    st.write("✔️ Article Generated!")
+                except Exception as e:
+                    st.warning(f"⚠️ Failed to generate article: {e}")
                 
                 st.write("⏳ Step 4/4: Cutting Reels and Highlights...")
                 reels_data = ai_analysis.get('reels', [])
@@ -69,9 +100,9 @@ if st.button("Start Processing"):
                 if reels_data:
                     saved_reels = cut_and_save_reels(video_path, reels_data)
                     
-                hl_path = ""
+                hl_result = {"mp4": "", "mp3": ""}
                 if hl_data:
-                    hl_path = create_highlights_video(video_path, hl_data)
+                    hl_result = create_highlights_video(video_path, hl_data)
                 
                 status.update(label="Processing Complete! 🎉", state="complete", expanded=False)
                 
@@ -82,21 +113,37 @@ if st.button("Start Processing"):
             main_title = ai_analysis.get('main_title', 'Video Summary')
             st.header(f"🎬 {main_title}")
             
+            # Surface Original Denoised Video
+            st.subheader("📼 Original Video (Noise Cancelled)")
+            if 'denoised_video_path' in locals() and os.path.exists(denoised_video_path):
+                with open(denoised_video_path, 'rb') as f:
+                    st.download_button("⬇️ Download Denoised Video (MP4)", f, file_name=Path(denoised_video_path).name, mime="video/mp4")
+            
             st.subheader("📋 Summary")
             st.info(ai_analysis.get('summary', 'No summary generated.'))
             
+            # Surface Article
+            st.subheader("📝 Generated Article")
+            if 'article_path' in locals() and os.path.exists(article_path):
+                with open(article_path, "r", encoding="utf-8") as f:
+                    article_content = f.read()
+                with st.expander("📖 Read Article"):
+                    st.markdown(article_content)
+                with open(article_path, "rb") as f:
+                    st.download_button("⬇️ Download Article (MD)", f, file_name=Path(article_path).name, mime="text/markdown")
+            
             st.divider()
             st.header("🔥 Generated Highlights")
+            hl_path = hl_result.get("mp4", "")
+            hl_mp3 = hl_result.get("mp3", "")
             if hl_path and os.path.exists(hl_path):
                 st.video(hl_path)
-                # MP3 download for highlights
-                hl_mp3 = hl_path.replace('.mp4', '.mp3')
                 col1, col2 = st.columns(2)
                 with col1:
                     with open(hl_path, 'rb') as f:
                         st.download_button("⬇️ Download Highlights (MP4)", f, file_name=Path(hl_path).name, mime="video/mp4")
                 with col2:
-                    if os.path.exists(hl_mp3):
+                    if hl_mp3 and os.path.exists(hl_mp3):
                         with open(hl_mp3, 'rb') as f:
                             st.download_button("🎵 Download Audio (MP3)", f, file_name=Path(hl_mp3).name, mime="audio/mpeg")
             else:
