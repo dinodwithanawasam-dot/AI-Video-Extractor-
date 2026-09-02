@@ -24,10 +24,19 @@ class ReelSegment(BaseModel):
     caption: str = Field(description="A social media caption for this clip (1-2 sentences + 3-5 relevant hashtags).")
     reason: str = Field(description="Why this segment is highly engaging")
 
+class HighlightTimestamp(BaseModel):
+    start_time: float = Field(description="Exact start time of the clip in seconds from the transcript")
+    end_time: float = Field(description="Exact end time of the clip in seconds.")
+
 class HighlightsSummary(BaseModel):
     main_title: str = Field(description="A compelling main title for the entire video summary (max 12 words).")
     summary: str = Field(description="A concise, readable text summary of the entire video")
-    highlight_segments: list[ReelSegment] = Field(description="Key moments that represent the core message of the video")
+    
+    highlight_title: str = Field(description="A catchy title for the merged highlights compilation video.")
+    highlight_caption: str = Field(description="A social media caption for the highlights compilation video.")
+    highlight_reason: str = Field(description="Why these selected highlight segments are important together.")
+    highlight_segments: list[HighlightTimestamp] = Field(description="Key moments to be merged into the highlights video")
+    
     reels: list[ReelSegment] = Field(description="Exactly 2 or 3 engaging segments. Each segment MUST be between 20 and 30 seconds long (end_time - start_time >= 20 AND end_time - start_time <= 30).")
 
 def get_llm():

@@ -18,48 +18,71 @@ LOGO_PATH  = ROOT_DIR / "logo" / "branding.jpeg"
 
 def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: str, out_mp3: str) -> dict:
     """
-    Uses FFmpeg to cut a segment, overlay the branding logo, and export MP4 + MP3.
-    Much faster than MoviePy — FFmpeg handles the encode natively without Python overhead.
+    Uses FFmpeg to cut a segment, optionally apply branding, and optionally prepend/append intro/outro.
     """
+    import subprocess
+    from src.ffmpeg_utils import build_concat_command, build_audio_concat_command
+    
     duration = end - start
-
-    if LOGO_PATH.exists():
-        filter_complex = (
-            "[1:v]scale=-1:ih*0.1[logo];"
-            "[0:v][logo]overlay=W-w-20:20[vout]"
-        )
-        video_cmd = [
-            "ffmpeg", "-y",
-            "-ss", str(start), "-t", str(duration),
-            "-i",  video_path,
-            "-i",  str(LOGO_PATH),
-            "-filter_complex", filter_complex,
-            "-map", "[vout]", "-map", "0:a",
-            "-c:v", "libx264", "-preset", "fast", "-crf", "23",
-            "-c:a", "aac", "-b:a", "192k",
-            out_mp4
-        ]
-    else:
-        logger.warning("Logo not found — cutting reel without watermark.")
-        video_cmd = [
-            "ffmpeg", "-y",
-            "-ss", str(start), "-t", str(duration),
-            "-i",  video_path,
-            "-c:v", "libx264", "-preset", "fast", "-crf", "23",
-            "-c:a", "aac", "-b:a", "192k",
-            out_mp4
-        ]
-
-    audio_cmd = [
-        "ffmpeg", "-y",
-        "-ss", str(start), "-t", str(duration),
-        "-i",  video_path,
-        "-vn", "-c:a", "libmp3lame", "-b:a", "192k",
-        out_mp3
-    ]
-
+    
+    intro_vid = ROOT_DIR / "media" / "video" / "start.mp4"
+    outro_vid = ROOT_DIR / "media" / "video" / "end.mp4"
+    
+    intro_aud = ROOT_DIR / "media" / "audio" / "start.mp3"
+    outro_aud = ROOT_DIR / "media" / "audio" / "end.mp3"
+    
+    has_video_media = intro_vid.exists() and outro_vid.exists()
+    has_audio_media = intro_aud.exists() and outro_aud.exists()
+    
+    use_logo = str(LOGO_PATH) if LOGO_PATH.exists() else None
+    
     try:
+        if has_video_media:
+            video_cmd = build_concat_command(
+                main_video_path = video_path,
+                intro_path = str(intro_vid),
+                outro_path = str(outro_vid),
+                out_path = out_mp4,
+                logo_path = use_logo,
+                start_time = start,
+                duration = duration
+            )
+        else:
+            # Fallback to standard cutting
+            if use_logo:
+                filter_complex = "[1:v]scale=-1:ih*0.11[logo];[0:v][logo]overlay=W-w-20:20[vout]"
+                video_cmd = [
+                    "ffmpeg", "-y",
+                    "-ss", str(start), "-t", str(duration),
+                    "-i", video_path,
+                    "-i", str(LOGO_PATH),
+                    "-filter_complex", filter_complex,
+                    "-map", "[vout]", "-map", "0:a",
+                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+                    "-c:a", "aac", "-b:a", "192k",
+                    out_mp4
+                ]
+            else:
+                video_cmd = [
+                    "ffmpeg", "-y",
+                    "-ss", str(start), "-t", str(duration),
+                    "-i", video_path,
+                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+                    "-c:a", "aac", "-b:a", "192k",
+                    out_mp4
+                ]
+
         subprocess.run(video_cmd, capture_output=True, check=True)
+
+        # For Audio, if we concatenated video, the video already contains the concatenated audio!
+        # But Wait: The user might want the audio file to just be extracted from the final video.
+        # Actually, if we just extract audio from out_mp4, we get everything!
+        audio_cmd = [
+            "ffmpeg", "-y",
+            "-i", out_mp4,
+            "-vn", "-c:a", "libmp3lame", "-b:a", "192k",
+            out_mp3
+        ]
         subprocess.run(audio_cmd, capture_output=True, check=True)
         return {"mp4": out_mp4, "mp3": out_mp3}
     except subprocess.CalledProcessError as e:
@@ -181,41 +204,60 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
     mp4_path = str(OUTPUT_DIR / f"{stem}_highlights.mp4")
     mp3_path = str(OUTPUT_DIR / f"{stem}_highlights.mp3")
 
-    # Step 3: Concatenate + overlay logo in one pass
-    if LOGO_PATH.exists():
-        concat_raw = str(OUTPUT_DIR / f"{stem}_hl_raw.mp4")
-        try:
-            subprocess.run([
-                "ffmpeg", "-y",
-                "-f", "concat", "-safe", "0",
-                "-i", str(concat_list),
-                "-c", "copy", concat_raw
-            ], capture_output=True, check=True)
-            subprocess.run([
-                "ffmpeg", "-y",
-                "-i", concat_raw, "-i", str(LOGO_PATH),
-                "-filter_complex", "[1:v]scale=-1:ih*0.1[logo];[0:v][logo]overlay=W-w-20:20[vout]",
-                "-map", "[vout]", "-map", "0:a",
-                "-c:v", "libx264", "-preset", "fast", "-crf", "23",
-                "-c:a", "aac", "-b:a", "192k",
-                mp4_path
-            ], capture_output=True, check=True)
-            Path(concat_raw).unlink(missing_ok=True)
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Highlights creation failed: {e.stderr.decode()}")
-            return {"mp4": "", "mp3": ""}
-    else:
-        try:
-            subprocess.run([
-                "ffmpeg", "-y",
-                "-f", "concat", "-safe", "0",
-                "-i", str(concat_list), "-c", "copy", mp4_path
-            ], capture_output=True, check=True)
-        except subprocess.CalledProcessError as e:
-            logger.error(f"Highlights concatenation failed: {e.stderr.decode()}")
-            return {"mp4": "", "mp3": ""}
+    # Step 3: Concatenate + overlay logo + intro/outro in one pass
+    concat_raw = str(OUTPUT_DIR / f"{stem}_hl_raw.mp4")
+    try:
+        # First, combine the cut segments losslessly
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-f", "concat", "-safe", "0",
+            "-i", str(concat_list),
+            "-c", "copy", concat_raw
+        ], capture_output=True, check=True)
+        
+        # Now apply branding, intro, and outro
+        from src.ffmpeg_utils import build_concat_command
+        
+        intro_vid = ROOT_DIR / "media" / "video" / "start.mp4"
+        outro_vid = ROOT_DIR / "media" / "video" / "end.mp4"
+        has_media = intro_vid.exists() and outro_vid.exists()
+        use_logo = str(LOGO_PATH) if LOGO_PATH.exists() else None
+        
+        if has_media:
+            video_cmd = build_concat_command(
+                main_video_path = concat_raw,
+                intro_path = str(intro_vid),
+                outro_path = str(outro_vid),
+                out_path = mp4_path,
+                logo_path = use_logo
+            )
+        else:
+            if use_logo:
+                video_cmd = [
+                    "ffmpeg", "-y",
+                    "-i", concat_raw, "-i", use_logo,
+                    "-filter_complex", "[1:v]scale=-1:ih*0.11[logo];[0:v][logo]overlay=W-w-20:20[vout]",
+                    "-map", "[vout]", "-map", "0:a",
+                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+                    "-c:a", "aac", "-b:a", "192k",
+                    mp4_path
+                ]
+            else:
+                video_cmd = [
+                    "ffmpeg", "-y",
+                    "-i", concat_raw,
+                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+                    "-c:a", "aac", "-b:a", "192k",
+                    mp4_path
+                ]
+        
+        subprocess.run(video_cmd, capture_output=True, check=True)
+        Path(concat_raw).unlink(missing_ok=True)
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Highlights creation failed: {e.stderr.decode()}")
+        return {"mp4": "", "mp3": ""}
 
-    # Step 4: Extract audio
+    # Extract audio from final video
     try:
         subprocess.run([
             "ffmpeg", "-y",
@@ -223,7 +265,8 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
             "-vn", "-c:a", "libmp3lame", "-b:a", "192k",
             mp3_path
         ], capture_output=True, check=True)
-        logger.info(f"Saved Highlights MP3 to {mp3_path}")
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Audio extraction for highlights failed: {e.stderr.decode()}")
     except Exception as e:
         logger.warning(f"Highlights audio extraction failed: {e}")
         mp3_path = ""
