@@ -77,7 +77,7 @@ def build_concat_command(
     
     if logo_path:
         # Scale logo to 11% of main height, overlay on main video
-        fc += f"[3:v]scale=-1:ih*0.11[logo];[1:v][logo]overlay=W-w-20:20,setsar=1,fps={fps}[v1];"
+        fc += f"[3:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[1:v][logo]overlay=W-w-20:20,setsar=1,fps={fps}[v1];"
     else:
         fc += f"[1:v]setsar=1,fps={fps}[v1];" # Just format main video
         

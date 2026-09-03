@@ -21,6 +21,7 @@ from src.transcription import load_whisper_model, transcribe_audio
 from src.ai_logic import analyze_transcript
 from src.video_editor import cut_and_save_reels, create_highlights_video
 from src.cloudinary_storage import build_folder, upload_pipeline_results, delete_local_files
+from src.utils.db_utils import get_all_videos
 
 logger = get_logger("FastAPI_Server")
 
@@ -38,9 +39,28 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(title="Autonomous Video Extraction AI", lifespan=lifespan)
 
+@app.get("/health")
+async def health_check():
+    """Docker/load-balancer healthcheck endpoint."""
+    whisper_ready = hasattr(app.state, "whisper_model") and app.state.whisper_model is not None
+    return {
+        "status": "ok" if whisper_ready else "starting",
+        "whisper_model_loaded": whisper_ready
+    }
+
+@app.get("/api/videos")
+async def fetch_videos(limit: int = 50):
+    """Fetches the latest processed videos from DynamoDB for the Dashboard."""
+    try:
+        videos = await run_in_threadpool(get_all_videos, limit)
+        return {"status": "success", "data": videos}
+    except Exception as e:
+        logger.error(f"Failed to fetch videos: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to fetch videos from DB: {str(e)}")
+
 def apply_ffmpeg_processing(video_path: str, with_logo: bool = False) -> str:
     import subprocess
-    from src.ffmpeg_utils import build_concat_command
+    from src.utils.ffmpeg_utils import build_concat_command
     
     output_dir = ROOT_DIR / "data" / "output"
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -73,7 +93,7 @@ def apply_ffmpeg_processing(video_path: str, with_logo: bool = False) -> str:
                 "-i", video_path,
                 "-i", use_logo,
                 "-filter_complex",
-                "[1:v]scale=-1:ih*0.11[logo];[0:v][logo]overlay=W-w-20:20[vout]",
+                "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
                 "-map", "[vout]", "-map", "0:a",
                 "-af", "afftdn=nf=-25",
                 "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
@@ -133,14 +153,23 @@ async def process_long(
             audio_path = ""
 
         # --- Upload to Cloudinary & clean up local files ---
-        local_results = {"video_path": final_video, "audio_path": audio_path}
+        # Keys MUST match what upload_pipeline_results and delete_local_files expect
+        local_results = {
+            "denoised_video": final_video,
+            "denoised_audio": audio_path,
+        }
         folder = build_folder(email, file.filename, timestamp)
         logger.info(f"[STEP +] Uploading outputs to Cloudinary folder: {folder}")
         cdn_results = await run_in_threadpool(upload_pipeline_results, local_results, folder)
         await run_in_threadpool(delete_local_files, local_results, source)
         logger.info("Cloudinary upload complete, local files cleaned up.")
 
-        return {"status": "success", "folder": folder, **cdn_results}
+        return {
+            "status":       "success",
+            "folder":       folder,
+            "video_path":   cdn_results.get("denoised_video", ""),
+            "audio_path":   cdn_results.get("denoised_audio", ""),
+        }
     except Exception as e:
         logger.error(f"Pipeline failed: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")

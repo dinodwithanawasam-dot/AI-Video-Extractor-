@@ -21,7 +21,7 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
     Uses FFmpeg to cut a segment, optionally apply branding, and optionally prepend/append intro/outro.
     """
     import subprocess
-    from src.ffmpeg_utils import build_concat_command, build_audio_concat_command
+    from src.utils.ffmpeg_utils import build_concat_command, build_audio_concat_command
     
     duration = end - start
     
@@ -50,7 +50,7 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
         else:
             # Fallback to standard cutting
             if use_logo:
-                filter_complex = "[1:v]scale=-1:ih*0.11[logo];[0:v][logo]overlay=W-w-20:20[vout]"
+                filter_complex = "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]"
                 video_cmd = [
                     "ffmpeg", "-y",
                     "-ss", str(start), "-t", str(duration),
@@ -216,7 +216,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
         ], capture_output=True, check=True)
         
         # Now apply branding, intro, and outro
-        from src.ffmpeg_utils import build_concat_command
+        from src.utils.ffmpeg_utils import build_concat_command
         
         intro_vid = ROOT_DIR / "media" / "video" / "start.mp4"
         outro_vid = ROOT_DIR / "media" / "video" / "end.mp4"
@@ -236,7 +236,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
                 video_cmd = [
                     "ffmpeg", "-y",
                     "-i", concat_raw, "-i", use_logo,
-                    "-filter_complex", "[1:v]scale=-1:ih*0.11[logo];[0:v][logo]overlay=W-w-20:20[vout]",
+                    "-filter_complex", "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
                     "-map", "[vout]", "-map", "0:a",
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
                     "-c:a", "aac", "-b:a", "192k",

@@ -11,3 +11,10 @@ fastapi>=0.100.0
 uvicorn>=0.23.0
 python-multipart>=0.0.6
 cloudinary>=1.40.0
+
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+redis
+
+boto3

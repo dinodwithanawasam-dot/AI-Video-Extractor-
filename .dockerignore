@@ -1,0 +1,40 @@
+# Python virtual environment — never copy this, Docker installs its own
+.venv/
+venv/
+env/
+
+# Git history and CI configs — not needed in image
+.git/
+.github/
+.gitignore
+
+# Sensitive secrets — injected at runtime via env_file, never baked into image
+.env
+.envrc
+
+# Temp and generated data — Docker uses named volumes for these
+data/input/
+data/output/
+data/temp/
+logs/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Test files
+test/
+
+# IDE configs
+.vscode/
+.idea/
+
+# Docs and markdown (not needed at runtime)
+README.md
+API_DOCS.md
+Solution_Document.md
+
+# MoviePy temp files
+*TEMP_MPY*
