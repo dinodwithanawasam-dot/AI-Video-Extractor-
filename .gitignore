@@ -219,6 +219,7 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 Solution_Document.md
+credentials.json
 
 # MoviePy Temp Files
 *TEMP_MPY*
