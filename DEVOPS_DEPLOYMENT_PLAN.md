@@ -65,8 +65,9 @@
 
 ## 📋 Table of Contents
 1. [Prerequisites & Target Region](#1-prerequisites--target-region)
-2. [Environment Variables Master Specification](#2-environment-variables-master-specification)
-3. [AWS Step-by-Step Infrastructure Provisioning](#3-aws-step-by-step-infrastructure-provisioning)
+2. [Local Environment Setup (Using `uv`)](#2-local-environment-setup-using-uv)
+3. [Environment Variables Master Specification](#3-environment-variables-master-specification)
+4. [AWS Step-by-Step Infrastructure Provisioning](#4-aws-step-by-step-infrastructure-provisioning)
    - [Step 1: IAM Roles & Policies](#step-1-iam-roles--policies)
    - [Step 2: AWS Secrets Manager](#step-2-aws-secrets-manager)
    - [Step 3: Amazon SQS Queue](#step-3-amazon-sqs-queue)
@@ -80,10 +81,10 @@
    - [Step 11: Amazon API Gateway (HTTP API)](#step-11-amazon-api-gateway)
    - [Step 12: AWS Lambda — flipline-webhook-renewer](#step-12-aws-lambda--flipline-webhook-renewer)
    - [Step 13: Amazon EventBridge Scheduler (Webhook Auto-Renewal)](#step-13-amazon-eventbridge-scheduler)
-4. [Packaging & Deployment Commands](#4-packaging--deployment-commands)
-5. [Post-Deployment Initial Webhook Activation](#5-post-deployment-initial-webhook-activation)
-6. [End-to-End Verification & Monitoring](#6-end-to-end-verification--monitoring)
-7. [DevOps Sign-Off Checklist](#7-devops-sign-off-checklist)
+5. [Packaging & Deployment Commands](#5-packaging--deployment-commands)
+6. [Post-Deployment Initial Webhook Activation](#6-post-deployment-initial-webhook-activation)
+7. [End-to-End Verification & Monitoring](#7-end-to-end-verification--monitoring)
+8. [DevOps Sign-Off Checklist](#8-devops-sign-off-checklist)
 
 ---
 
@@ -93,12 +94,62 @@
 * **CLI Tools Required**:
   - `aws-cli` v2 (configured with administrator privileges: `aws configure`)
   - `docker` (engine running with buildx/compose support)
-  - `python` 3.11 + `pip`
+  - `uv` (Astral's fast Python package manager) or `python` 3.11 + `pip`
 * **Local Repo State**: Git repository cloned and on the target deployment branch.
 
 ---
 
-## 2. Environment Variables Master Specification
+## 2. Local Environment Setup (Using `uv`)
+
+To run auxiliary scripts (such as `register_webhook.py`, packaging Lambda artifacts, or local verification tests), configure the local Python environment using **`uv`** (ultra-fast dependency resolver and installer).
+
+### 2.1 Install `uv` (if not already installed)
+- **Windows (PowerShell)**:
+  ```powershell
+  powershell -c "irm https://astral.sh/uv/install.ps1 | iex"
+  ```
+- **Linux / macOS / WSL**:
+  ```bash
+  curl -LsSf https://astral.sh/uv/install.sh | sh
+  ```
+- **Via standard pip**:
+  ```bash
+  pip install uv
+  ```
+
+### 2.2 Create and Activate Virtual Environment
+From the project root:
+```bash
+# Create a Python 3.11 virtual environment (.venv)
+uv venv --python 3.11
+
+# Activate on Windows (PowerShell):
+.venv\Scripts\Activate.ps1
+
+# Activate on Linux / macOS / WSL:
+source .venv/bin/activate
+```
+
+### 2.3 Install Dependencies via `uv`
+Install all dependencies in seconds:
+```bash
+uv pip install -r requirements.txt
+```
+
+### 2.4 (Optional) Verify Local Execution
+To verify that the application starts cleanly before deploying to AWS:
+```bash
+# Launch the API locally
+uvicorn api:app --reload --port 8000
+
+# In another terminal, verify health endpoint:
+curl http://localhost:8000/health
+# Expected output: {"status":"ok"}
+```
+
+---
+
+## 3. Environment Variables Master Specification
 
 Several environment variables are shared across the ECS Fargate Worker and the two Lambda functions.
 
@@ -125,7 +176,7 @@ Several environment variables are shared across the ECS Fargate Worker and the t
 
 ---
 
-## 3. AWS Step-by-Step Infrastructure Provisioning
+## 4. AWS Step-by-Step Infrastructure Provisioning
 
 ---
 
@@ -409,7 +460,7 @@ Google Drive webhook push subscriptions expire every 7 days. This Lambda automat
 
 ---
 
-## 4. Packaging & Deployment Commands
+## 5. Packaging & Deployment Commands
 
 Run these packaging commands in your terminal (Linux/macOS bash or Windows PowerShell) from the project root to generate the Lambda deployment archive.
 
@@ -418,8 +469,8 @@ Run these packaging commands in your terminal (Linux/macOS bash or Windows Power
 # Clean up prior build artifacts
 rm -rf lambda_package lambda_deployment.zip
 
-# Install dependencies into package folder
-pip install -r requirements.txt -t lambda_package/ --quiet
+# Install dependencies into package folder (using uv or pip)
+uv pip install -r requirements.txt --target lambda_package/ || pip install -r requirements.txt -t lambda_package/ --quiet
 
 # Copy application source code
 cp -r src lambda_package/src
@@ -437,8 +488,9 @@ echo "✅ Generated lambda_deployment.zip successfully!"
 # Clean up
 Remove-Item -Recurse -Force lambda_package, lambda_deployment.zip -ErrorAction SilentlyContinue
 
-# Install dependencies
-pip install -r requirements.txt -t lambda_package/ --quiet
+# Install dependencies (using uv or pip)
+uv pip install -r requirements.txt --target lambda_package/
+if (-not $?) { pip install -r requirements.txt -t lambda_package/ --quiet }
 
 # Copy files
 Copy-Item -Recurse src lambda_package/src
@@ -460,7 +512,7 @@ aws lambda update-function-code --function-name flipline-webhook-renewer --zip-f
 
 ---
 
-## 5. Post-Deployment Initial Webhook Activation
+## 6. Post-Deployment Initial Webhook Activation
 
 Once both Lambdas and API Gateway are deployed:
 
@@ -475,7 +527,7 @@ Once both Lambdas and API Gateway are deployed:
    ```bash
    python register_webhook.py
    ```
-4. Output confirms registration:
+3. Output confirms registration:
    ```
    ✅ Initial webhook registered successfully! Channel ID: 3e82fc91-xxxx-xxxx-xxxx-xxxxxxxxxxxx
       Expires: 1726050000000
@@ -487,7 +539,7 @@ Once both Lambdas and API Gateway are deployed:
 
 ---
 
-## 6. End-to-End Verification & Monitoring
+## 7. End-to-End Verification & Monitoring
 
 ### 1. Test Health Endpoint
 ```bash
@@ -508,7 +560,7 @@ aws logs tail /ecs/flipline-worker --follow
 
 ---
 
-## 7. DevOps Sign-Off Checklist
+## 8. DevOps Sign-Off Checklist
 
 - [ ] **IAM Roles Provisioned**:
   - [ ] `flipline-lambda-role`
