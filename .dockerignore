@@ -8,9 +8,14 @@ env/
 .github/
 .gitignore
 
-# Sensitive secrets — injected at runtime via env_file, never baked into image
+# Sensitive secrets — injected at runtime via Secrets Manager or env_file, never baked into image
 .env
 .envrc
+credentials.json
+
+# Lambda deployment packages
+lambda_package/
+lambda_deployment.zip
 
 # Temp and generated data — Docker uses named volumes for these
 data/input/

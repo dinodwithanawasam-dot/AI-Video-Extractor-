@@ -11,6 +11,7 @@ services:
     restart: unless-stopped
     ports:
       - "8000:8000"
+    command: uvicorn api:app --host 0.0.0.0 --port 8000
     env_file:
       - .env
     environment:
@@ -36,37 +37,7 @@ services:
       start_period: 60s    # Give Whisper model time to pre-load on startup
 
   # -------------------------------------------------------
-  # Redis Message Queue (For Phase 1 & 2)
-  # -------------------------------------------------------
-  redis:
-    image: redis:7-alpine
-    container_name: ai_video_redis
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/data
-
-  # -------------------------------------------------------
-  # Google Drive Watcher (Phase 1)
-  # -------------------------------------------------------
-  watcher:
-    build:
-      context: .
-      dockerfile: Docker/Dockerfile
-    container_name: ai_video_drive_watcher
-    restart: unless-stopped
-    command: python src/drive_watcher.py
-    env_file:
-      - .env
-    environment:
-      - PYTHONUNBUFFERED=1
-      - REDIS_URL=redis://redis:6379/0
-    depends_on:
-      - redis
-
-  # -------------------------------------------------------
-  # AI Video Processing Worker (Phase 2)
+  # AI Video Processing Worker
   # -------------------------------------------------------
   ai_worker:
     build:
@@ -74,12 +45,11 @@ services:
       dockerfile: Docker/Dockerfile
     container_name: ai_video_worker
     restart: unless-stopped
-    command: python src/worker.py
+    command: python -u src/worker.py
     env_file:
       - .env
     environment:
       - PYTHONUNBUFFERED=1
-      - REDIS_URL=redis://redis:6379/0
     volumes:
       - ./media:/app/media:ro
       - ./logo:/app/logo:ro
@@ -88,8 +58,6 @@ services:
       - video_output:/app/data/output
       - video_temp:/app/data/temp
       - app_logs:/app/logs
-    depends_on:
-      - redis
 
 # -------------------------------------------------------
 # Named Volumes (persists data between container restarts)
@@ -99,4 +67,3 @@ volumes:
   video_output:
   video_temp:
   app_logs:
-  redis_data:

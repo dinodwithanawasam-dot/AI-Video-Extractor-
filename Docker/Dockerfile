@@ -64,12 +64,8 @@ COPY . .
 # Create necessary data directories so they exist inside the container
 RUN mkdir -p data/input data/output data/temp logs
 
-# Expose the FastAPI port
-EXPOSE 8000
+# Ensure Python logs are flushed immediately to CloudWatch without buffering
+ENV PYTHONUNBUFFERED=1
 
-# Healthcheck — Docker will ping this to know if the service is alive
-HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
-    CMD curl -f http://localhost:8000/health || exit 1
-
-# Run the FastAPI server
-CMD ["uvicorn", "api:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "1"]
+# Run the AI Video Processing Worker (Fargate worker entry point)
+CMD ["python", "-u", "src/worker.py"]

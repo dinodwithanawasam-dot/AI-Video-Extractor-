@@ -18,15 +18,30 @@ SCOPES = ['https://www.googleapis.com/auth/drive']
 
 
 def get_drive_service(credentials_path="credentials.json"):
-    """Authenticates and returns a Google Drive API service instance."""
+    """
+    Authenticates and returns a Google Drive API service instance.
+    - AWS (Lambda/Fargate): reads credentials from Secrets Manager
+    - Local dev: reads from credentials.json file
+    """
     try:
-        creds_path = ROOT_DIR / credentials_path
-        if not creds_path.exists():
-            logger.error(f"Credentials file not found at {creds_path}")
-            return None
+        secret_arn = os.getenv("GOOGLE_CREDENTIALS_SECRET_ARN")
 
-        creds = service_account.Credentials.from_service_account_file(
-            str(creds_path), scopes=SCOPES)
+        if secret_arn:
+            import boto3
+            sm = boto3.client('secretsmanager',
+                              region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
+            secret = sm.get_secret_value(SecretId=secret_arn)
+            creds_dict = json.loads(secret['SecretString'])
+        else:
+            creds_path = ROOT_DIR / credentials_path
+            if not creds_path.exists():
+                logger.error(f"Credentials file not found at {creds_path}")
+                return None
+            with open(creds_path) as f:
+                creds_dict = json.load(f)
+
+        creds = service_account.Credentials.from_service_account_info(
+            creds_dict, scopes=SCOPES)
         service = build('drive', 'v3', credentials=creds)
         return service
     except Exception as e:

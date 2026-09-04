@@ -15,6 +15,6 @@ cloudinary>=1.40.0
 google-api-python-client
 google-auth-httplib2
 google-auth-oauthlib
-redis
 
 boto3
+mangum

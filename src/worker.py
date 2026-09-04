@@ -1,7 +1,7 @@
 """
 worker.py — Background AI Video Processing Worker
 
-Listens to the Redis 'video_processing_queue', downloads each video from
+Listens to the AWS SQS queue, downloads each video from
 Google Drive, runs it through the full AI pipeline (short-form), uploads
 results to Cloudinary, and stores job metadata for the Flipline dashboard.
 
@@ -18,7 +18,6 @@ import time
 from pathlib import Path
 from datetime import datetime
 from dotenv import load_dotenv
-import redis
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.append(str(ROOT_DIR))
@@ -35,9 +34,6 @@ from src.utils.drive_utils import get_drive_service, download_file
 from src.utils.db_utils import save_video_record
 
 logger = get_logger("AI_Worker")
-
-REDIS_URL = os.getenv("REDIS_URL", "redis://localhost:6379/0")
-QUEUE_NAME = "video_processing_queue"
 
 
 def apply_ffmpeg_processing(video_path: str, with_logo: bool = True) -> str:
@@ -212,78 +208,71 @@ async def process_job(job: dict, whisper_model) -> dict:
 
 
 def run_worker():
-    """Main blocking loop: pull one job at a time from Redis and process it."""
-    # ── Connect to Redis ──────────────────────────────────────────────────
-    logger.info("Connecting to Redis...")
-    try:
-        redis_client = redis.Redis.from_url(
-            REDIS_URL, 
-            decode_responses=True,
-            socket_timeout=40,       # Socket timeout must be higher than brpop timeout
-            socket_keepalive=True
-        )
-        redis_client.ping()
-        logger.info(f"Connected to Redis at {REDIS_URL}")
-    except Exception as e:
-        logger.error(f"Cannot connect to Redis: {e}")
-        sys.exit(1)
+    """
+    Pull ONE job from SQS → process it → delete it → exit.
+    Fargate starts this container when SQS has a message, and stops it when
+    this script exits.
+    """
+    import boto3
+    from datetime import timezone
 
-    # ── Pre-load Whisper so we don't reload it for every job ─────────────
-    logger.info("Pre-loading Whisper model...")
+    sqs = boto3.client('sqs', region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
+    queue_url = os.getenv("AWS_SQS_QUEUE_URL")
+
+    logger.info("Worker started. Checking SQS for a job...")
+
+    # Receive exactly ONE message (long-poll up to 5 seconds)
+    response = sqs.receive_message(
+        QueueUrl=queue_url,
+        MaxNumberOfMessages=1,
+        WaitTimeSeconds=5
+    )
+
+    messages = response.get("Messages", [])
+    if not messages:
+        logger.info("No jobs in queue. Worker exiting.")
+        return
+
+    message = messages[0]
+    job = json.loads(message["Body"])
+    receipt_handle = message["ReceiptHandle"]
+
+    logger.info(f"Processing job: {job.get('file_name')}")
+
+    # Pre-load Whisper model
     whisper_model = load_whisper_model()
-    logger.info("Whisper model ready. Worker is listening for jobs...")
+    logger.info("Whisper model loaded.")
 
-    # ── Main event loop ───────────────────────────────────────────────────
     loop = asyncio.new_event_loop()
     asyncio.set_event_loop(loop)
 
-    while True:
-        try:
-            # brpop blocks until a job appears (timeout=30s to stay alive)
-            result = redis_client.brpop(QUEUE_NAME, timeout=30)
-            if result is None:
-                # Timeout, no jobs — just continue listening
-                continue
+    try:
+        cdn_results = loop.run_until_complete(process_job(job, whisper_model))
+        logger.info(f"Job complete. Folder: {cdn_results.get('folder')}")
 
-            _, raw_job = result
-            job = json.loads(raw_job)
-            logger.info(f"Picked up job: {job.get('file_name')}")
+        # Save to DynamoDB
+        db_record = {
+            "video_id":      job.get("file_id"),
+            "created_at":    datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "status":        "success",
+            "main_title":    cdn_results.get("main_title", ""),
+            "summary":       cdn_results.get("summary", ""),
+            "article_path":  cdn_results.get("article_path", ""),
+            "denoised_video":cdn_results.get("denoised_video", ""),
+            "denoised_audio":cdn_results.get("denoised_audio", ""),
+            "highlights":    cdn_results.get("highlights", {}),
+            "reels":         cdn_results.get("reels", [])
+        }
+        save_video_record(db_record)
 
-            try:
-                cdn_results = loop.run_until_complete(process_job(job, whisper_model))
-                logger.info(f"Job complete. Cloudinary folder: {cdn_results.get('folder')}")
-                
-                # Phase 3: save cdn_results to DynamoDB here
-                # Prepare record schema matching implementation plan
-                db_record = {
-                    "video_id": job.get("file_id"), # Primary Key
-                    "created_at": datetime.utcnow().isoformat() + "Z", # Timestamp for sorting
-                    "status": "success",
-                    "main_title": cdn_results.get("main_title", ""),
-                    "summary": cdn_results.get("summary", ""),
-                    "article_path": cdn_results.get("article_path", ""),
-                    "denoised_video": cdn_results.get("denoised_video", ""),
-                    "denoised_audio": cdn_results.get("denoised_audio", ""),
-                    "highlights": cdn_results.get("highlights", {}),
-                    "reels": cdn_results.get("reels", [])
-                }
-                save_video_record(db_record)
-                
-            except Exception as e:
-                logger.error(f"Job failed for {job.get('file_name')}: {e}", exc_info=True)
+        # ✅ Delete from SQS — marks job as successfully done
+        sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
+        logger.info("SQS message deleted. Worker exiting cleanly.")
 
-        except KeyboardInterrupt:
-            logger.info("Worker stopped by user.")
-            break
-        except redis.exceptions.TimeoutError:
-            # Socket timed out before brpop returned (harmless, just loop again)
-            continue
-        except redis.exceptions.ConnectionError as e:
-            logger.warning(f"Redis connection dropped: {e}. Retrying in 5s...")
-            time.sleep(5)
-        except Exception as e:
-            logger.error(f"Unexpected worker error: {e}", exc_info=True)
-            time.sleep(5)  # Brief pause before retrying on unexpected errors
+    except Exception as e:
+        logger.error(f"Job failed: {e}", exc_info=True)
+        # Do NOT delete SQS message on failure!
+        # It will reappear after Visibility Timeout (3600s) for automatic retry.
 
 
 if __name__ == "__main__":

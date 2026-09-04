@@ -6,8 +6,9 @@ from pathlib import Path
 from datetime import datetime
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
-from fastapi import FastAPI, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, HTTPException, UploadFile, File, Form, Request
 from fastapi.concurrency import run_in_threadpool
+from starlette.responses import PlainTextResponse
 
 load_dotenv()
 
@@ -47,6 +48,56 @@ async def health_check():
         "status": "ok" if whisper_ready else "starting",
         "whisper_model_loaded": whisper_ready
     }
+
+# ── Module-level SQS client ──────────────────────────────────────
+import boto3 as _boto3
+import json as _json
+_sqs = _boto3.client('sqs', region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
+_WEBHOOK_TOKEN = os.getenv("PUBLIC_WEBHOOK_TOKEN", "")
+_INPUT_FOLDER   = os.getenv("GDRIVE_INPUT_FOLDER_ID", "")
+
+@app.get("/webhook/drive")
+async def drive_webhook_verify(token: str = ""):
+    """Google calls this GET to confirm our URL is real before sending notifications."""
+    if token != _WEBHOOK_TOKEN:
+        raise HTTPException(status_code=403, detail="Invalid token")
+    return PlainTextResponse(token)
+
+@app.post("/webhook/drive")
+async def drive_webhook_receive(request: Request):
+    """Google calls this POST whenever a file is added to the Input folder."""
+    state = request.headers.get("X-Goog-Resource-State", "")
+
+    # Only care about file additions
+    if state not in ("add", "update", "change"):
+        return {"status": "ignored", "state": state}
+
+    # Find the newest file in the Input folder
+    from src.utils.drive_utils import get_drive_service
+    service = get_drive_service()
+    result = service.files().list(
+        q=f"'{_INPUT_FOLDER}' in parents and trashed=false",
+        orderBy="createdTime desc",
+        pageSize=1,
+        fields="files(id, name, mimeType)"
+    ).execute()
+
+    files = result.get("files", [])
+    if not files:
+        return {"status": "no_file_found"}
+
+    f = files[0]
+    if "video" not in f.get("mimeType", ""):
+        return {"status": "not_a_video", "mime": f.get("mimeType")}
+
+    # Push job to SQS
+    _sqs.send_message(
+        QueueUrl=os.getenv("AWS_SQS_QUEUE_URL"),
+        MessageBody=_json.dumps({"file_id": f["id"], "file_name": f["name"]})
+    )
+    logger.info(f"Queued job: {f['name']}")
+    return {"status": "queued", "file_name": f["name"]}
+
 
 @app.get("/api/videos")
 async def fetch_videos(limit: int = 50):
@@ -281,3 +332,8 @@ async def process_short(
     except Exception as e:
         logger.error(f"Pipeline failed: {str(e)}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Pipeline failed: {str(e)}")
+
+
+# ── AWS Lambda entry point ───────────────────────────────────────
+from mangum import Mangum
+lambda_handler = Mangum(app, lifespan="off")
