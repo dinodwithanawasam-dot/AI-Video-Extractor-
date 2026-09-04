@@ -16,6 +16,7 @@ credentials.json
 # Lambda deployment packages
 lambda_package/
 lambda_deployment.zip
+*.zip
 
 # Temp and generated data — Docker uses named volumes for these
 data/input/
@@ -37,9 +38,19 @@ test/
 .idea/
 
 # Docs and markdown (not needed at runtime)
-README.md
-API_DOCS.md
-Solution_Document.md
+*.md
+
+# DevOps & Deployment scripts (not needed inside worker container)
+scripts/
+deploy_worker.*
+build_lambda.*
+requirements_lambda.txt
+lambda_api.py
+register_webhook.py
+docker-compose*.yml
+
+# Scratch response files
+response*.json
 
 # MoviePy temp files
 *TEMP_MPY*

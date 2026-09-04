@@ -16,8 +16,8 @@ if sys.platform == "win32":
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
-os.environ["AWS_SQS_QUEUE_URL"] = "https://sqs.us-east-1.amazonaws.com/123456789012/Flipline_Jobs"
-os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+os.environ.setdefault("AWS_SQS_QUEUE_URL", "https://sqs.us-east-1.amazonaws.com/123456789012/Flipline_Jobs")
+os.environ.setdefault("AWS_DEFAULT_REGION", "us-east-1")
 
 from src.worker import run_worker
 

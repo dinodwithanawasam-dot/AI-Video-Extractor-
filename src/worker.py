@@ -30,7 +30,7 @@ from src.transcription import load_whisper_model, transcribe_audio
 from src.ai_logic import analyze_transcript
 from src.video_editor import cut_and_save_reels, create_highlights_video
 from src.cloudinary_storage import build_folder, upload_pipeline_results, delete_local_files
-from src.utils.drive_utils import get_drive_service, download_file
+from src.utils.drive_utils import get_drive_service, download_file, move_file
 from src.utils.db_utils import save_video_record
 
 logger = get_logger("AI_Worker")
@@ -202,6 +202,16 @@ async def process_job(job: dict, whisper_model) -> dict:
         None, upload_pipeline_results, local_results, folder)
     await loop.run_in_executor(
         None, delete_local_files, local_results, source)
+
+    # ── Move processed file to Google Drive Archive folder ───────────────
+    archive_folder_id = os.getenv("GDRIVE_ARCHIVE_FOLDER_ID")
+    if archive_folder_id:
+        try:
+            logger.info(f"[ARCHIVE] Moving {file_name} to Google Drive Archive folder ({archive_folder_id})...")
+            await loop.run_in_executor(
+                None, move_file, service, file_id, archive_folder_id)
+        except Exception as e:
+            logger.warning(f"Failed to move {file_name} to archive folder: {e}")
 
     logger.info(f"[JOB DONE] {file_name} → folder: {folder}")
     return {"folder": folder, **cdn_results}

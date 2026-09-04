@@ -15,11 +15,11 @@ if sys.platform == "win32":
 ROOT_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT_DIR))
 
-# Set test environment variables before importing api
-os.environ["PUBLIC_WEBHOOK_TOKEN"] = "test_secret_token_123"
-os.environ["GDRIVE_INPUT_FOLDER_ID"] = "test_folder_abc"
-os.environ["AWS_SQS_QUEUE_URL"] = "https://sqs.us-east-1.amazonaws.com/123456789012/Flipline_Jobs"
-os.environ["AWS_DEFAULT_REGION"] = "us-east-1"
+# Set test environment variables only if not already provided
+os.environ.setdefault("PUBLIC_WEBHOOK_TOKEN", "test_secret_token_123")
+os.environ.setdefault("GDRIVE_INPUT_FOLDER_ID", "test_folder_abc")
+os.environ.setdefault("AWS_SQS_QUEUE_URL", "https://sqs.us-east-1.amazonaws.com/123456789012/Flipline_Jobs")
+os.environ.setdefault("AWS_DEFAULT_REGION", "us-east-1")
 
 from fastapi.testclient import TestClient
 from api import app, lambda_handler
@@ -42,7 +42,7 @@ class TestApiEndpoints(unittest.TestCase):
 
     def test_02_webhook_verification_valid_token(self):
         """Test GET /webhook/drive with matching token returns 200 and token text."""
-        token = "test_secret_token_123"
+        token = os.getenv("PUBLIC_WEBHOOK_TOKEN") or "test_secret_token_123"
         response = self.client.get(f"/webhook/drive?token={token}")
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.text, token)

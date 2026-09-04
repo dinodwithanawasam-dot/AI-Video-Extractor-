@@ -28,8 +28,11 @@ VIDEO_CONFIG = CONFIG.get("video", {})
 PATHS_CONFIG = CONFIG.get("paths", {})
 
 # Auto-create necessary directories based on config
-os.makedirs(ROOT_DIR / PATHS_CONFIG.get("input_dir", "data/input"), exist_ok=True)
-os.makedirs(ROOT_DIR / PATHS_CONFIG.get("output_dir", "data/output"), exist_ok=True)
-os.makedirs(ROOT_DIR / PATHS_CONFIG.get("temp_dir", "data/temp"), exist_ok=True)
+try:
+    os.makedirs(ROOT_DIR / PATHS_CONFIG.get("input_dir", "data/input"), exist_ok=True)
+    os.makedirs(ROOT_DIR / PATHS_CONFIG.get("output_dir", "data/output"), exist_ok=True)
+    os.makedirs(ROOT_DIR / PATHS_CONFIG.get("temp_dir", "data/temp"), exist_ok=True)
+except OSError:
+    pass
 
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")

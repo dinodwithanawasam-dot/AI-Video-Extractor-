@@ -30,7 +30,7 @@ def run_unit_tests():
     loader = unittest.TestLoader()
     suite = loader.discover(start_dir=str(test_dir), pattern="test_*.py")
 
-    runner = unittest.TextTestRunner(verbosity=2)
+    runner = unittest.TextTestRunner(verbosity=2, stream=sys.stdout)
     start_time = time.time()
     result = runner.run(suite)
     duration = time.time() - start_time

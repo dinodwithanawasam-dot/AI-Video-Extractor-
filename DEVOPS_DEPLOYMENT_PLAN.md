@@ -361,7 +361,7 @@ The EventBridge Pipe connects SQS to ECS Fargate, launching tasks dynamically on
    - **Batch size**: `1` (ensures 1 video per container)
    - **Batch window**: `0`
 4. **Target**:
-   - **Target service**: `Amazon ECS Task`
+   - **Target service**: `ECS cluster`
    - **Cluster**: `Flipline-Cluster`
    - **Task definition**: `flipline-worker-task`
    - **Launch type**: `FARGATE`
@@ -383,8 +383,8 @@ The EventBridge Pipe connects SQS to ECS Fargate, launching tasks dynamically on
    - **Execution role**: `Use an existing role` → Select `flipline-lambda-role`
 3. Click **Create function**.
 4. Configure the function:
-   - **Code**: Upload `lambda_deployment.zip` (see [Section 4](#4-packaging--deployment-commands)).
-   - **Runtime settings**: Edit handler to `api.lambda_handler`.
+   - **Code**: Upload `lambda_deployment.zip` (see [Section 5](#5-packaging--deployment-commands)).
+   - **Runtime settings**: Edit handler to `lambda_api.lambda_handler`.
    - **General configuration**: Memory: `512 MB`, Timeout: `30 seconds`.
    - **Environment variables**:
      - `AWS_DEFAULT_REGION` = `us-east-1`
@@ -467,21 +467,20 @@ Run these packaging commands in your terminal (Linux/macOS bash or Windows Power
 
 ### Linux / macOS / WSL Bash:
 ```bash
-# Clean up prior build artifacts
+# Simply run the automated build script:
+./build_lambda.sh
+
+# Or manually:
 rm -rf lambda_package lambda_deployment.zip
-
-# Install dependencies into package folder (using uv or pip)
-uv pip install -r requirements.txt --target lambda_package/ || pip install -r requirements.txt -t lambda_package/ --quiet
-
-# Copy application source code
+uv pip install -r requirements_lambda.txt --target lambda_package/
 cp -r src lambda_package/src
+cp -r config lambda_package/config
+cp lambda_api.py lambda_package/
 cp api.py lambda_package/
+cp config.py lambda_package/
 cp log.py lambda_package/ 2>/dev/null || true
-
-# Package into zip
-cd lambda_package && zip -r ../lambda_deployment.zip . && cd ..
-
-echo "✅ Generated lambda_deployment.zip successfully!"
+cd lambda_package && zip -rq ../lambda_deployment.zip . && cd ..
+echo "✅ Generated lightweight lambda_deployment.zip (~40MB) successfully!"
 ```
 
 ### Windows PowerShell:
@@ -495,7 +494,9 @@ if (-not $?) { pip install -r requirements.txt -t lambda_package/ --quiet }
 
 # Copy files
 Copy-Item -Recurse src lambda_package/src
+Copy-Item -Recurse config lambda_package/config
 Copy-Item api.py lambda_package/
+Copy-Item config.py lambda_package/
 Copy-Item log.py lambda_package/ -ErrorAction SilentlyContinue
 
 # Create ZIP

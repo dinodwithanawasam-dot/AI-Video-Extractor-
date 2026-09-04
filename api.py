@@ -59,7 +59,8 @@ _INPUT_FOLDER   = os.getenv("GDRIVE_INPUT_FOLDER_ID", "")
 @app.get("/webhook/drive")
 async def drive_webhook_verify(token: str = ""):
     """Google calls this GET to confirm our URL is real before sending notifications."""
-    if token != _WEBHOOK_TOKEN:
+    expected = os.getenv("PUBLIC_WEBHOOK_TOKEN") or _WEBHOOK_TOKEN
+    if not token or token != expected:
         raise HTTPException(status_code=403, detail="Invalid token")
     return PlainTextResponse(token)
 

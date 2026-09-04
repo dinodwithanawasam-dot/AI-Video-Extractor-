@@ -77,26 +77,40 @@ def list_mp4_files(service, folder_id):
 def move_file(service, file_id, dest_folder_id):
     """Moves a file to a new folder by updating its parents."""
     if not service:
+        service = get_drive_service()
+    if not service:
         return False
 
-    try:
-        # Retrieve the existing parents to remove
-        file = service.files().get(fileId=file_id, fields='parents').execute()
-        previous_parents = ",".join(file.get('parents', []))
+    for attempt in range(2):
+        try:
+            # Retrieve the existing parents
+            file = service.files().get(fileId=file_id, fields='parents').execute()
+            parents = file.get('parents', [])
 
-        # Move the file to the new folder
-        service.files().update(
-            fileId=file_id,
-            addParents=dest_folder_id,
-            removeParents=previous_parents,
-            fields='id, parents'
-        ).execute()
+            # Check if already in destination
+            if dest_folder_id in parents:
+                logger.info(f"File {file_id} is already in folder {dest_folder_id}")
+                return True
 
-        logger.info(f"Successfully moved file {file_id} to folder {dest_folder_id}")
-        return True
-    except Exception as e:
-        logger.error(f"Error moving file {file_id}: {e}")
-        return False
+            previous_parents = ",".join(parents)
+
+            # Move the file to the new folder
+            service.files().update(
+                fileId=file_id,
+                addParents=dest_folder_id,
+                removeParents=previous_parents,
+                fields='id, parents'
+            ).execute()
+
+            logger.info(f"Successfully moved file {file_id} to folder {dest_folder_id}")
+            return True
+        except Exception as e:
+            if attempt == 0:
+                logger.warning(f"Drive connection idle timeout ({e}). Re-authenticating and retrying move...")
+                service = get_drive_service()
+            else:
+                logger.error(f"Error moving file {file_id}: {e}")
+                return False
 
 
 def download_file(service, file_id: str, output_path: str) -> bool:

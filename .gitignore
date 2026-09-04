@@ -224,3 +224,7 @@ credentials.json
 
 # MoviePy Temp Files
 *TEMP_MPY*
+
+# Lambda build artifacts
+lambda_package/
+lambda_deployment.zip

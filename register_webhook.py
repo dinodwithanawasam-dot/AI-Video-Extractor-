@@ -9,9 +9,12 @@ from src.utils.drive_utils import get_drive_service
 
 load_dotenv()
 
-API_URL   = input("Paste your API Gateway URL (e.g. https://abc.execute-api.us-east-1.amazonaws.com/prod): ").strip()
+API_URL = (os.getenv("PUBLIC_API_URL") or input("Paste your API Gateway URL (e.g. https://abc.execute-api.us-east-1.amazonaws.com/prod): ")).strip()
 FOLDER_ID = os.getenv("GDRIVE_INPUT_FOLDER_ID")
 TOKEN     = os.getenv("PUBLIC_WEBHOOK_TOKEN")
+
+print(f">> Registering Google Drive webhook for folder: {FOLDER_ID}")
+print(f">> Target endpoint: {API_URL}/webhook/drive")
 
 service = get_drive_service()
 response = service.files().watch(
@@ -25,7 +28,7 @@ response = service.files().watch(
     }
 ).execute()
 
-print(f"✅ Initial webhook registered successfully! Channel ID: {response.get('id')}")
+print(f"[SUCCESS] Initial webhook registered successfully! Channel ID: {response.get('id')}")
 print(f"   Expires: {response.get('expiration')}")
-print(f"   🔄 Automatic renewal is active via EventBridge Scheduler (every 6 days). No manual re-runs needed!")
+print(f"   Automatic renewal is active via EventBridge Scheduler (every 6 days). No manual re-runs needed!")
 

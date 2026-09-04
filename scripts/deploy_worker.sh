@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e # Exit immediately if a command fails
 
+# Load AWS credentials from .env if present
+if [ -f .env ]; then
+    export $(grep -E '^AWS_' .env | xargs)
+fi
+
 echo "🚀 Starting Deployment for flipline-worker..."
 
 # Set AWS Region
