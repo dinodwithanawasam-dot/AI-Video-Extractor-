@@ -25,14 +25,20 @@ def get_drive_service(credentials_path="credentials.json"):
     """
     try:
         secret_arn = os.getenv("GOOGLE_CREDENTIALS_SECRET_ARN")
+        creds_dict = None
 
-        if secret_arn:
-            import boto3
-            sm = boto3.client('secretsmanager',
-                              region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
-            secret = sm.get_secret_value(SecretId=secret_arn)
-            creds_dict = json.loads(secret['SecretString'])
-        else:
+        if secret_arn and "YOUR_ACCOUNT" not in secret_arn:
+            try:
+                import boto3
+                sm = boto3.client('secretsmanager',
+                                  region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
+                secret = sm.get_secret_value(SecretId=secret_arn)
+                creds_dict = json.loads(secret['SecretString'])
+            except Exception as sm_err:
+                logger.warning(f"Could not retrieve secret from Secrets Manager: {sm_err}. Attempting local fallback.")
+                creds_dict = None
+
+        if not creds_dict:
             creds_path = ROOT_DIR / credentials_path
             if not creds_path.exists():
                 logger.error(f"Credentials file not found at {creds_path}")

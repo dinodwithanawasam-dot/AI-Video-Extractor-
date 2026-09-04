@@ -1,7 +1,11 @@
 import os
+import sys
 import json
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
+
+if sys.platform == "win32":
+    sys.stdout.reconfigure(encoding="utf-8")
 
 SCOPES = ['https://www.googleapis.com/auth/drive.readonly']
 CREDENTIALS_FILE = 'credentials.json'

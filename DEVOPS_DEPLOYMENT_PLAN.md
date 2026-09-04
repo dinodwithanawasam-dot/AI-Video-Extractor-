@@ -137,12 +137,13 @@ uv pip install -r requirements.txt
 ```
 
 ### 2.4 (Optional) Verify Local Execution
-To verify that the application starts cleanly before deploying to AWS:
+To verify that the application and cloud connections work cleanly before deploying to AWS:
 ```bash
-# Launch the API locally
-uvicorn api:app --reload --port 8000
+# Run the automated unit & integration test suite (16 tests + cloud checks)
+python test/run_all_tests.py
 
-# In another terminal, verify health endpoint:
+# (Optional) Launch the API locally
+uvicorn api:app --reload --port 8000
 curl http://localhost:8000/health
 # Expected output: {"status":"ok"}
 ```
