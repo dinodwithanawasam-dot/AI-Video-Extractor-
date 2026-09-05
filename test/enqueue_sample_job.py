@@ -11,7 +11,12 @@ from src.utils.drive_utils import get_drive_service
 
 load_dotenv()
 
-sqs = boto3.client("sqs", region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
+session = boto3.Session(
+    aws_access_key_id=os.getenv("AWS_ACCESS_KEY_ID"),
+    aws_secret_access_key=os.getenv("AWS_SECRET_ACCESS_KEY"),
+    region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1")
+)
+sqs = session.client("sqs")
 queue_url = os.getenv("AWS_SQS_QUEUE_URL")
 folder_id = os.getenv("GDRIVE_INPUT_FOLDER_ID")
 

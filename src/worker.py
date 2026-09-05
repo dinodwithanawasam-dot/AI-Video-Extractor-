@@ -219,35 +219,74 @@ async def process_job(job: dict, whisper_model) -> dict:
 
 def run_worker():
     """
-    Pull ONE job from SQS → process it → delete it → exit.
-    Fargate starts this container when SQS has a message, and stops it when
-    this script exits.
+    Execute worker job.
+    Sources checked in order:
+    1. Direct JOB_PAYLOAD environment variable (injected by EventBridge Pipe)
+    2. SQS Queue message
+    3. Pending video in Google Drive Input folder (safety fallback)
     """
     import boto3
     from datetime import timezone
 
+    logger.info("Worker started.")
+
+    job = None
+    receipt_handle = None
     sqs = boto3.client('sqs', region_name=os.getenv("AWS_DEFAULT_REGION", "us-east-1"))
     queue_url = os.getenv("AWS_SQS_QUEUE_URL")
 
-    logger.info("Worker started. Checking SQS for a job...")
+    # 1. Check JOB_PAYLOAD environment variable (injected by EventBridge Pipe)
+    job_payload_env = os.getenv("JOB_PAYLOAD")
+    if job_payload_env:
+        try:
+            logger.info("Detected JOB_PAYLOAD from environment.")
+            job = json.loads(job_payload_env)
+        except Exception as e:
+            logger.warning(f"Could not parse JOB_PAYLOAD: {e}")
 
-    # Receive exactly ONE message (long-poll up to 5 seconds)
-    response = sqs.receive_message(
-        QueueUrl=queue_url,
-        MaxNumberOfMessages=1,
-        WaitTimeSeconds=5
-    )
+    # 2. Check SQS Queue
+    if not job and queue_url:
+        logger.info("Checking SQS for a job...")
+        try:
+            response = sqs.receive_message(
+                QueueUrl=queue_url,
+                MaxNumberOfMessages=1,
+                WaitTimeSeconds=5
+            )
+            messages = response.get("Messages", [])
+            if messages:
+                message = messages[0]
+                job = json.loads(message["Body"])
+                receipt_handle = message["ReceiptHandle"]
+                logger.info(f"Received job ticket from SQS: {job.get('file_name')}")
+        except Exception as e:
+            logger.warning(f"Error checking SQS: {e}")
 
-    messages = response.get("Messages", [])
-    if not messages:
-        logger.info("No jobs in queue. Worker exiting.")
+    # 3. Fallback: Check Google Drive input folder directly
+    if not job:
+        logger.info("Checking Google Drive input folder directly for pending video files...")
+        try:
+            from src.utils.drive_utils import get_drive_service
+            service = get_drive_service()
+            input_folder_id = os.getenv("GDRIVE_INPUT_FOLDER_ID")
+            if service and input_folder_id:
+                res = service.files().list(
+                    q=f"'{input_folder_id}' in parents and trashed=false",
+                    fields="files(id, name, mimeType)",
+                    pageSize=1
+                ).execute()
+                files = res.get("files", [])
+                if files:
+                    job = {"file_id": files[0]["id"], "file_name": files[0]["name"]}
+                    logger.info(f"Found pending file in Drive input folder: {job['file_name']} ({job['file_id']})")
+        except Exception as e:
+            logger.warning(f"Error checking Google Drive folder: {e}")
+
+    if not job or not job.get("file_id"):
+        logger.info("No jobs found via EventBridge, SQS, or Google Drive. Worker exiting.")
         return
 
-    message = messages[0]
-    job = json.loads(message["Body"])
-    receipt_handle = message["ReceiptHandle"]
-
-    logger.info(f"Processing job: {job.get('file_name')}")
+    logger.info(f"Processing job: {job.get('file_name')} (ID: {job.get('file_id')})")
 
     # Pre-load Whisper model
     whisper_model = load_whisper_model()
@@ -275,9 +314,15 @@ def run_worker():
         }
         save_video_record(db_record)
 
-        # ✅ Delete from SQS — marks job as successfully done
-        sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
-        logger.info("SQS message deleted. Worker exiting cleanly.")
+        # ✅ Delete from SQS if pulled from SQS
+        if receipt_handle and queue_url:
+            try:
+                sqs.delete_message(QueueUrl=queue_url, ReceiptHandle=receipt_handle)
+                logger.info("SQS message deleted.")
+            except Exception as e:
+                logger.warning(f"Could not delete SQS message: {e}")
+
+        logger.info("Job successfully completed. Worker exiting cleanly.")
 
     except Exception as e:
         logger.error(f"Job failed: {e}", exc_info=True)
