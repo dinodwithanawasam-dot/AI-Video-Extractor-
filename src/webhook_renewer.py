@@ -28,6 +28,7 @@ def renew_webhook(api_url: str = None):
 
     response = service.files().watch(
         fileId=folder_id,
+        supportsAllDrives=True,
         body={
             "id":         channel_id,
             "type":       "web_hook",

@@ -19,6 +19,7 @@ print(f">> Target endpoint: {API_URL}/webhook/drive")
 service = get_drive_service()
 response = service.files().watch(
     fileId=FOLDER_ID,
+    supportsAllDrives=True,
     body={
         "id":         str(uuid.uuid4()),
         "type":       "web_hook",

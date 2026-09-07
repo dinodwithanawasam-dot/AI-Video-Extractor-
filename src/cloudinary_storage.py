@@ -91,20 +91,21 @@ def upload_pipeline_results(results: dict, folder: str) -> dict:
     for key in ("denoised_video", "denoised_audio", "article_path"):
         lp = results.get(key, "")
         if lp:
-            tasks.append((key, lp, Path(lp).name))
+            pid = f"{Path(lp).stem}_audio.mp3" if key == "denoised_audio" else Path(lp).name
+            tasks.append((key, lp, pid))
 
     hl = results.get("highlights", {})
     if isinstance(hl, dict):
         if hl.get("mp4"):
             tasks.append(("highlights_mp4", hl["mp4"], "highlights.mp4"))
         if hl.get("mp3"):
-            tasks.append(("highlights_mp3", hl["mp3"], "highlights.mp3"))
+            tasks.append(("highlights_mp3", hl["mp3"], "highlights_audio.mp3"))
 
     for i, reel in enumerate(results.get("reels", [])):
         if reel.get("mp4"):
             tasks.append((f"reel_{i}_mp4", reel["mp4"], f"reel_{i+1}.mp4"))
         if reel.get("mp3"):
-            tasks.append((f"reel_{i}_mp3", reel["mp3"], f"reel_{i+1}.mp3"))
+            tasks.append((f"reel_{i}_mp3", reel["mp3"], f"reel_{i+1}_audio.mp3"))
 
     if not tasks:
         logger.warning("No files to upload to Cloudinary.")

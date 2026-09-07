@@ -64,10 +64,13 @@ async def drive_webhook_verify(token: str = ""):
 async def drive_webhook_receive(request: Request):
     """Google calls this POST whenever a file is added to the Input folder."""
     state = request.headers.get("X-Goog-Resource-State", "")
+    channel_id = request.headers.get("X-Goog-Channel-ID", "")
+    logger.info(f"Incoming Google Drive webhook notification: state='{state}', channel='{channel_id}'")
 
-    # Only care about file additions / modifications
-    if state not in ("add", "update", "change"):
-        return {"status": "ignored", "state": state}
+    # Ignore channel setup sync ping
+    if state == "sync":
+        logger.info("Ignoring 'sync' handshake notification.")
+        return {"status": "sync_acknowledged"}
 
     # Find the newest file in the Input folder
     from src.utils.drive_utils import get_drive_service
@@ -77,20 +80,33 @@ async def drive_webhook_receive(request: Request):
         raise HTTPException(status_code=500, detail="Google Drive service unavailable")
 
     folder_id = os.getenv("GDRIVE_INPUT_FOLDER_ID", _INPUT_FOLDER)
+    logger.info(f"Checking Google Drive Input Folder: {folder_id}...")
+
     result = service.files().list(
         q=f"'{folder_id}' in parents and trashed=false",
+        supportsAllDrives=True,
+        includeItemsFromAllDrives=True,
         orderBy="createdTime desc",
-        pageSize=1,
+        pageSize=5,
         fields="files(id, name, mimeType)"
     ).execute()
 
     files = result.get("files", [])
+    logger.info(f"Files found in Input folder: {len(files)}")
     if not files:
+        logger.warning(f"No files found in Input folder {folder_id}.")
         return {"status": "no_file_found"}
 
-    f = files[0]
-    if "video" not in f.get("mimeType", ""):
-        return {"status": "not_a_video", "mime": f.get("mimeType")}
+    # Select the first video file or first file
+    f = None
+    for item in files:
+        if "video" in item.get("mimeType", "") or item.get("name", "").endswith((".mp4", ".mov", ".mkv", ".avi")):
+            f = item
+            break
+
+    if not f:
+        f = files[0]
+        logger.info(f"No explicitly typed video found, using top file: {f.get('name')}")
 
     # Push job ticket directly to AWS SQS
     queue_url = os.getenv("AWS_SQS_QUEUE_URL")

@@ -91,7 +91,7 @@ def build_concat_command(
         "-map", "[vout]",
         "-map", "[aout]",
         "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-        "-c:a", "aac", "-b:a", "192k",
+        "-c:a", "aac", "-b:a", "192k", "-ac", "2",
         "-movflags", "+faststart",
         out_path
     ])
@@ -112,7 +112,7 @@ def build_audio_concat_command(
         "-i", outro_audio_path,
         "-filter_complex", "[0:a][1:a][2:a]concat=n=3:v=0:a=1[aout]",
         "-map", "[aout]",
-        "-c:a", "libmp3lame", "-b:a", "192k",
+        "-c:a", "libmp3lame", "-b:a", "192k", "-ac", "2",
         out_path
     ]
     return cmd

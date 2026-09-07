@@ -109,11 +109,15 @@ def monitor():
             
             in_files = service.files().list(
                 q=f"'{input_fid}' in parents and trashed=false",
+                supportsAllDrives=True,
+                includeItemsFromAllDrives=True,
                 fields="files(id, name)"
             ).execute().get("files", [])
             
             arch_files = service.files().list(
                 q=f"'{archive_fid}' in parents and trashed=false",
+                supportsAllDrives=True,
+                includeItemsFromAllDrives=True,
                 fields="files(id, name)"
             ).execute().get("files", [])
 

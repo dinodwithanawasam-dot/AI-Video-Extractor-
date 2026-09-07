@@ -65,6 +65,8 @@ def list_mp4_files(service, folder_id):
         results = service.files().list(
             q=query,
             spaces='drive',
+            supportsAllDrives=True,
+            includeItemsFromAllDrives=True,
             fields='files(id, name, mimeType)',
             pageSize=50
         ).execute()
@@ -84,7 +86,11 @@ def move_file(service, file_id, dest_folder_id):
     for attempt in range(2):
         try:
             # Retrieve the existing parents
-            file = service.files().get(fileId=file_id, fields='parents').execute()
+            file = service.files().get(
+                fileId=file_id,
+                supportsAllDrives=True,
+                fields='parents'
+            ).execute()
             parents = file.get('parents', [])
 
             # Check if already in destination
@@ -99,6 +105,7 @@ def move_file(service, file_id, dest_folder_id):
                 fileId=file_id,
                 addParents=dest_folder_id,
                 removeParents=previous_parents,
+                supportsAllDrives=True,
                 fields='id, parents'
             ).execute()
 
@@ -123,7 +130,7 @@ def download_file(service, file_id: str, output_path: str) -> bool:
         return False
 
     try:
-        request = service.files().get_media(fileId=file_id)
+        request = service.files().get_media(fileId=file_id, supportsAllDrives=True)
         dest = Path(output_path)
         dest.parent.mkdir(parents=True, exist_ok=True)
 

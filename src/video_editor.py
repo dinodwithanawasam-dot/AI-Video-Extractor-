@@ -59,7 +59,7 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
                     "-filter_complex", filter_complex,
                     "-map", "[vout]", "-map", "0:a",
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-                    "-c:a", "aac", "-b:a", "192k",
+                    "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     out_mp4
                 ]
             else:
@@ -68,7 +68,7 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
                     "-ss", str(start), "-t", str(duration),
                     "-i", video_path,
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-                    "-c:a", "aac", "-b:a", "192k",
+                    "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     out_mp4
                 ]
 
@@ -80,7 +80,7 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
         audio_cmd = [
             "ffmpeg", "-y",
             "-i", out_mp4,
-            "-vn", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-vn", "-c:a", "libmp3lame", "-b:a", "192k", "-ac", "2",
             out_mp3
         ]
         subprocess.run(audio_cmd, capture_output=True, check=True)
@@ -182,7 +182,10 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
             "ffmpeg", "-y",
             "-ss", str(start), "-t", str(end - start),
             "-i", video_path,
-            "-c", "copy",   # stream copy — very fast
+            # Re-encode (not stream copy) to fix A/V sync at keyframe boundaries.
+            # Stream copy can start mid-GOP causing lipsync drift after concat.
+            "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+            "-c:a", "aac", "-b:a", "192k", "-ac", "2",
             temp_path
         ]
         try:
@@ -239,7 +242,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
                     "-filter_complex", "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
                     "-map", "[vout]", "-map", "0:a",
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-                    "-c:a", "aac", "-b:a", "192k",
+                    "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     mp4_path
                 ]
             else:
@@ -247,7 +250,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
                     "ffmpeg", "-y",
                     "-i", concat_raw,
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-                    "-c:a", "aac", "-b:a", "192k",
+                    "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     mp4_path
                 ]
         
@@ -262,7 +265,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
         subprocess.run([
             "ffmpeg", "-y",
             "-i", mp4_path,
-            "-vn", "-c:a", "libmp3lame", "-b:a", "192k",
+            "-vn", "-c:a", "libmp3lame", "-b:a", "192k", "-ac", "2",
             mp3_path
         ], capture_output=True, check=True)
     except subprocess.CalledProcessError as e:

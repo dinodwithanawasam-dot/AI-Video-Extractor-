@@ -236,8 +236,8 @@ def run_worker():
     queue_url = os.getenv("AWS_SQS_QUEUE_URL")
 
     # 1. Check JOB_PAYLOAD environment variable (injected by EventBridge Pipe)
-    job_payload_env = os.getenv("JOB_PAYLOAD")
-    if job_payload_env:
+    job_payload_env = os.getenv("JOB_PAYLOAD", "").strip()
+    if job_payload_env and job_payload_env != "<$.body>":
         try:
             logger.info("Detected JOB_PAYLOAD from environment.")
             job = json.loads(job_payload_env)
@@ -272,12 +272,20 @@ def run_worker():
             if service and input_folder_id:
                 res = service.files().list(
                     q=f"'{input_folder_id}' in parents and trashed=false",
+                    supportsAllDrives=True,
+                    includeItemsFromAllDrives=True,
                     fields="files(id, name, mimeType)",
-                    pageSize=1
+                    pageSize=5
                 ).execute()
                 files = res.get("files", [])
                 if files:
-                    job = {"file_id": files[0]["id"], "file_name": files[0]["name"]}
+                    # Pick first video or top file
+                    for item in files:
+                        if "video" in item.get("mimeType", "") or item.get("name", "").endswith((".mp4", ".mov", ".mkv", ".avi")):
+                            job = {"file_id": item["id"], "file_name": item["name"]}
+                            break
+                    if not job:
+                        job = {"file_id": files[0]["id"], "file_name": files[0]["name"]}
                     logger.info(f"Found pending file in Drive input folder: {job['file_name']} ({job['file_id']})")
         except Exception as e:
             logger.warning(f"Error checking Google Drive folder: {e}")
