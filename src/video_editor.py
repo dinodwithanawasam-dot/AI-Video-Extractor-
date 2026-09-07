@@ -21,7 +21,7 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
     Uses FFmpeg to cut a segment, optionally apply branding, and optionally prepend/append intro/outro.
     """
     import subprocess
-    from src.utils.ffmpeg_utils import build_concat_command, build_audio_concat_command
+    from src.utils.ffmpeg_utils import build_concat_command, build_audio_concat_command, get_audio_denoise_filter
     
     duration = end - start
     
@@ -58,7 +58,8 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
                     "-i", str(LOGO_PATH),
                     "-filter_complex", filter_complex,
                     "-map", "[vout]", "-map", "0:a",
-                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+                    "-af", get_audio_denoise_filter(),
+                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
                     "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     out_mp4
                 ]
@@ -67,7 +68,8 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
                     "ffmpeg", "-y",
                     "-ss", str(start), "-t", str(duration),
                     "-i", video_path,
-                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+                    "-af", get_audio_denoise_filter(),
+                    "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
                     "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     out_mp4
                 ]
@@ -177,6 +179,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
         if end <= start or start < 0 or (video_duration > 0 and end > video_duration):
             logger.warning(f"Invalid highlight timestamps: {start}-{end}, skipping.")
             continue
+        from src.utils.ffmpeg_utils import get_audio_denoise_filter
         temp_path = str(OUTPUT_DIR / f"{stem}_hl_temp_{i}.mp4")
         cmd = [
             "ffmpeg", "-y",
@@ -184,7 +187,8 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
             "-i", video_path,
             # Re-encode (not stream copy) to fix A/V sync at keyframe boundaries.
             # Stream copy can start mid-GOP causing lipsync drift after concat.
-            "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+            "-af", get_audio_denoise_filter(),
+            "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
             "-c:a", "aac", "-b:a", "192k", "-ac", "2",
             temp_path
         ]
@@ -235,12 +239,20 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
                 logo_path = use_logo
             )
         else:
+            from src.utils.ffmpeg_utils import get_audio_denoise_filter
+            denoise_filter = get_audio_denoise_filter()
             if use_logo:
+                # Apply logo overlay AND denoise via filter_complex
+                fc = (
+                    f"[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];"
+                    f"[0:v][logo]overlay=W-w-20:20[vout];"
+                    f"[0:a]{denoise_filter}[aout]"
+                )
                 video_cmd = [
                     "ffmpeg", "-y",
                     "-i", concat_raw, "-i", use_logo,
-                    "-filter_complex", "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
-                    "-map", "[vout]", "-map", "0:a",
+                    "-filter_complex", fc,
+                    "-map", "[vout]", "-map", "[aout]",
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
                     "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     mp4_path
@@ -249,6 +261,7 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
                 video_cmd = [
                     "ffmpeg", "-y",
                     "-i", concat_raw,
+                    "-af", denoise_filter,
                     "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
                     "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                     mp4_path

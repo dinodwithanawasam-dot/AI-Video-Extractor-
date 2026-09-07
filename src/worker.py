@@ -68,7 +68,8 @@ def apply_ffmpeg_processing(video_path: str, with_logo: bool = True) -> str:
             logo_path=use_logo
         )
     else:
-        # Fallback: no intro/outro
+        from src.utils.ffmpeg_utils import get_audio_denoise_filter
+        denoise_filter = get_audio_denoise_filter()
         if use_logo:
             cmd = [
                 "ffmpeg", "-y",
@@ -77,18 +78,18 @@ def apply_ffmpeg_processing(video_path: str, with_logo: bool = True) -> str:
                 "-filter_complex",
                 "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
                 "-map", "[vout]", "-map", "0:a",
-                "-af", "afftdn=nf=-25",
-                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-                "-c:a", "aac", "-b:a", "192k",
+                "-af", denoise_filter,
+                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
+                "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                 str(out_path)
             ]
         else:
             cmd = [
                 "ffmpeg", "-y",
                 "-i", video_path,
-                "-c:v", "copy",
-                "-af", "afftdn=nf=-25",
-                "-c:a", "aac", "-b:a", "192k",
+                "-af", denoise_filter,
+                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
+                "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                 str(out_path)
             ]
 
@@ -156,12 +157,12 @@ async def process_job(job: dict, whisper_model) -> dict:
     saved_reels = []
     if reels_data:
         saved_reels = await loop.run_in_executor(
-            None, cut_and_save_reels, denoised_video_path, reels_data)
+            None, cut_and_save_reels, video_path, reels_data)
 
     hl_result = {"mp4": "", "mp3": ""}
     if hl_data:
         hl_result = await loop.run_in_executor(
-            None, create_highlights_video, denoised_video_path, hl_data)
+            None, create_highlights_video, video_path, hl_data)
 
     # Enrich reels with AI metadata
     enriched_reels = []
@@ -177,13 +178,26 @@ async def process_job(job: dict, whisper_model) -> dict:
             "mp3":        paths.get("mp3", ""),
         })
 
+    # Extract studio-quality stereo denoised MP3 from final denoised video
+    denoised_mp3_path = str(output_dir / f"{Path(video_path).stem}_denoised.mp3")
+    try:
+        subprocess.run([
+            "ffmpeg", "-y",
+            "-i", denoised_video_path,
+            "-vn", "-c:a", "libmp3lame", "-b:a", "192k", "-ac", "2",
+            denoised_mp3_path
+        ], capture_output=True, check=True)
+    except Exception as e:
+        logger.warning(f"Failed to extract high-res denoised mp3: {e}")
+        denoised_mp3_path = audio_path
+
     local_results = {
         "status":         "success",
         "main_title":     ai_analysis.get("main_title", ""),
         "summary":        ai_analysis.get("summary", ""),
         "article_path":   str(article_path),
         "denoised_video": denoised_video_path,
-        "denoised_audio": audio_path,
+        "denoised_audio": denoised_mp3_path,
         "highlights": {
             "title":    ai_analysis.get("highlight_title", ""),
             "caption":  ai_analysis.get("highlight_caption", ""),
@@ -201,7 +215,7 @@ async def process_job(job: dict, whisper_model) -> dict:
     cdn_results = await loop.run_in_executor(
         None, upload_pipeline_results, local_results, folder)
     await loop.run_in_executor(
-        None, delete_local_files, local_results, source)
+        None, delete_local_files, local_results, source, video_path)
 
     # ── Move processed file to Google Drive Archive folder ───────────────
     archive_folder_id = os.getenv("GDRIVE_ARCHIVE_FOLDER_ID")
@@ -281,7 +295,7 @@ def run_worker():
                 if files:
                     # Pick first video or top file
                     for item in files:
-                        if "video" in item.get("mimeType", "") or item.get("name", "").endswith((".mp4", ".mov", ".mkv", ".avi")):
+                        if "video" in item.get("mimeType", "") or item.get("name", "").lower().endswith((".mp4", ".mov", ".mkv", ".avi", ".webm")):
                             job = {"file_id": item["id"], "file_name": item["name"]}
                             break
                     if not job:

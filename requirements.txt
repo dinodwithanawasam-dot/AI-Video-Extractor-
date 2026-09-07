@@ -1,5 +1,6 @@
 yt-dlp>=2024.11.18
 openai-whisper>=20240930
+noisereduce>=3.0.3
 moviepy>=1.0.3          # optional — replaced by FFmpeg in video_editor.py
 langchain>=0.3.7
 langchain-openai>=0.1.0

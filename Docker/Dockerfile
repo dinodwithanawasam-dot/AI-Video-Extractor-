@@ -13,26 +13,30 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy and install Python requirements first (for layer caching)
+# Install CPU-only torch first (saves 2GB+ of unnecessary NVIDIA CUDA GPU downloads)
+RUN pip install --no-cache-dir --timeout=120 --retries=5 --prefix=/install \
+    torch==2.4.0+cpu torchaudio==2.4.0+cpu \
+    --index-url https://download.pytorch.org/whl/cpu
+
+# Make sure pip in the builder sees the pre-installed CPU torch in /install
+ENV PYTHONPATH="/install/lib/python3.11/site-packages:${PYTHONPATH}"
+ENV PATH="/install/bin:${PATH}"
+
+# Copy and install Python requirements (with CPU index fallback to prevent NVIDIA GPU packages)
 COPY requirements.txt .
-RUN pip install --upgrade pip && \
-    pip install --no-cache-dir --prefix=/install -r requirements.txt
+RUN pip install --no-cache-dir --timeout=120 --retries=5 --prefix=/install \
+    --extra-index-url https://download.pytorch.org/whl/cpu \
+    -r requirements.txt
 
 # ========================================================
 # Stage 2: Pre-download Whisper model during build
 # (So the container never needs internet at runtime)
+# Reuses the packages installed in Stage 1 — NO extra downloads!
 # ========================================================
 FROM python:3.11-slim AS model-downloader
 
-WORKDIR /models
-
-# Need whisper installed to download
-# Use CPU-only torch to avoid downloading the 2GB+ GPU version unnecessarily
-# --timeout=120 and --retries=5 to handle slow network connections during build
-RUN pip install --no-cache-dir --timeout=120 --retries=5 \
-    torch==2.4.0+cpu torchaudio==2.4.0+cpu \
-    --index-url https://download.pytorch.org/whl/cpu && \
-    pip install --no-cache-dir --timeout=120 --retries=5 openai-whisper
+# Copy packages from builder stage so whisper is already available
+COPY --from=builder /install /usr/local
 
 # Download the Whisper 'base' model weights — cached into /root/.cache/whisper
 # This runs ONCE at docker build time, not at every container start!

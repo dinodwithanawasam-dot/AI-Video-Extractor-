@@ -98,11 +98,11 @@ def extract_audio(video_path: str) -> str:
     
     try:
         # Use FFmpeg directly with afftdn (Audio Fast Fourier Transform DeNoise) filter
-        # This removes background hiss/hum while preserving speech clearly
+        from src.utils.ffmpeg_utils import get_audio_denoise_filter
         ffmpeg_cmd = [
             "ffmpeg", "-y",
             "-i", str(video_path),
-            "-af", "afftdn=nf=-25",   # nf=-25: noise floor threshold in dBFS
+            "-af", get_audio_denoise_filter(),
             "-ar", "16000",           # 16kHz sample rate (optimal for Whisper)
             "-ac", "1",               # Mono channel (reduces file size, fine for speech)
             "-vn",                    # No video stream
@@ -128,9 +128,53 @@ def extract_audio(video_path: str) -> str:
         raise e
 
 
+def ensure_mp4_format(video_path: str) -> str:
+    """
+    Ensures the video is in standard MP4 format (H.264 video, AAC audio).
+    If the video is in WebM (or any non-MP4 container/codec), it converts it
+    to MP4 using FFmpeg with high quality and fast preset.
+    Returns the path to the MP4 video.
+    """
+    import subprocess
+    path = Path(video_path)
+    if not path.exists():
+        logger.error(f"Input video not found: {video_path}")
+        raise FileNotFoundError(f"Input video not found: {video_path}")
+
+    # If it's already an MP4, return as is
+    if path.suffix.lower() == ".mp4":
+        return str(path)
+
+    output_mp4 = path.with_suffix(".mp4")
+    logger.info(f"Non-MP4 format detected ({path.suffix}). Converting {path.name} -> {output_mp4.name} via FFmpeg...")
+
+    cmd = [
+        "ffmpeg", "-y",
+        "-i", str(path),
+        "-c:v", "libx264",
+        "-preset", "veryfast",
+        "-crf", "20",
+        "-pix_fmt", "yuv420p",
+        "-c:a", "aac",
+        "-b:a", "192k",
+        "-movflags", "+faststart",
+        str(output_mp4)
+    ]
+
+    result = subprocess.run(cmd, capture_output=True, text=True)
+    if result.returncode != 0:
+        logger.error(f"FFmpeg conversion to MP4 failed: {result.stderr}")
+        raise RuntimeError(f"Failed to convert {path.name} to MP4: {result.stderr}")
+
+    logger.info(f"Successfully converted {path.name} to standard MP4: {output_mp4}")
+    return str(output_mp4)
+
+
 def process_video_input(source: str) -> tuple[str, str]:
     """
-    Handles both YouTube URLs and local MP4 file paths.
+    Handles both YouTube URLs and local video file paths (MP4, WebM, MOV, MKV, etc.).
+    Ensures video is converted to standard MP4 format.
+    Enhances and denoises the soundtrack using adaptive noisereduce.
     Returns a tuple of (video_file_path, extracted_audio_path).
     """
     if source.startswith("http://") or source.startswith("https://") or "youtube.com" in source or "youtu.be" in source:
@@ -139,8 +183,13 @@ def process_video_input(source: str) -> tuple[str, str]:
     else:
         logger.info("Detected local file path.")
         video_path = source
+
+    # Ensure format is standard MP4 (converts WebM, MOV, MKV, etc. if needed)
+    video_path = ensure_mp4_format(video_path)
         
-    audio_path = extract_audio(video_path)
+    from src.utils.audio_enhancer import denoise_video_audio
+    video_path, audio_path = denoise_video_audio(video_path)
     
     return str(video_path), str(audio_path)
+
 

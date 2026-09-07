@@ -8,7 +8,7 @@ import boto3
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(ROOT_DIR / ".env")
 
-TABLE_NAME = "Flipline_Videos"
+TABLE_NAME = os.getenv("DYNAMODB_TABLE_NAME", "Flipline_Videos")
 
 def create_dynamodb_table():
     """Creates the DynamoDB table with the required GSI for sorting."""

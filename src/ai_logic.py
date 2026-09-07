@@ -25,8 +25,8 @@ class ReelSegment(BaseModel):
     reason: str = Field(description="Why this segment is highly engaging")
 
 class HighlightTimestamp(BaseModel):
-    start_time: float = Field(description="Exact start time of the clip in seconds from the transcript")
-    end_time: float = Field(description="Exact end time of the clip in seconds.")
+    start_time: float = Field(description="Exact start time of the clip in seconds. MUST start at the beginning of a complete sentence.")
+    end_time: float = Field(description="Exact end time of the clip in seconds. MUST end after the speaker finishes a complete sentence/thought. NEVER cut off mid-sentence.")
 
 class HighlightsSummary(BaseModel):
     main_title: str = Field(description="A compelling main title for the entire video summary (max 12 words).")
@@ -35,7 +35,7 @@ class HighlightsSummary(BaseModel):
     highlight_title: str = Field(description="A catchy title for the merged highlights compilation video.")
     highlight_caption: str = Field(description="A social media caption for the highlights compilation video.")
     highlight_reason: str = Field(description="Why these selected highlight segments are important together.")
-    highlight_segments: list[HighlightTimestamp] = Field(description="Key moments to be merged into the highlights video")
+    highlight_segments: list[HighlightTimestamp] = Field(description="2 or 3 meaningful key moments with complete sentences to be merged into the highlights video")
     
     reels: list[ReelSegment] = Field(description="Exactly 2 or 3 engaging segments. Each segment MUST be between 20 and 30 seconds long (end_time - start_time >= 20 AND end_time - start_time <= 30).")
 
@@ -77,10 +77,17 @@ For EACH reel and highlight segment, you MUST also generate:
 - title: A short, catchy, viral-style title (max 10 words). Make it hook the viewer instantly.
 - caption: A social media caption (1-2 engaging sentences + 3-5 relevant hashtags).
 
+HIGHLIGHT SEGMENT RULES (MEANINGFUL & COMPLETE SENTENCES - CRITICAL):
+- NEVER cut off in the middle of a sentence or mid-word!
+- Every highlight segment MUST start at the very beginning of a sentence/thought and end AFTER the speaker completes their thought (look at transcript punctuation and sentence boundaries).
+- The segment must have full, complete meaning that makes total sense on its own. No half-finished thoughts or awkward cuts.
+- Select 2 or 3 of the most impactful, exciting, or important moments. Each segment should typically be 10 to 25 seconds long to capture the full idea clearly.
+
 REEL CONTENT RULES (WHAT TO SELECT):
 - Pick the most engaging, emotional, or highly informative parts of the video.
 - Look for clear advice, strong opinions, or impactful moments that hook a viewer's attention.
-- The selected speech must make sense on its own (don't pick a segment that requires too much outside context).
+- MUST start at the beginning of a sentence and finish at the end of a sentence. Never cut off mid-speech.
+- The selected speech must make complete sense on its own.
 
 REEL DURATION RULES (CRITICAL):
 - Every reel MUST be exactly between 20 and 30 seconds: (end_time - start_time) >= 20 AND <= 30.
@@ -96,7 +103,7 @@ EXAMPLE OF SELF-CORRECTION:
   Draft reel: start=166.4, end=184.8 → duration=18.4s ← TOO SHORT, must fix!
   Fix: extend end to next segment boundary → end=186.5 → duration=20.1s ✅ Submit this.
 
-ALWAYS return exactly 2 or 3 reels. Never return an empty list.
+ALWAYS return exactly 2 or 3 reels and 2 or 3 meaningful highlights. Never return an empty list.
 
 {format_instructions}
 """),

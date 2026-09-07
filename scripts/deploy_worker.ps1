@@ -40,9 +40,27 @@ Write-Host ">> [4/5] Tagging image..." -ForegroundColor Yellow
 docker tag "${IMAGE_NAME}:latest" "${ECR_URL}/${IMAGE_NAME}:latest"
 if ($LASTEXITCODE -ne 0) { Write-Error "Docker tag failed"; exit 1 }
 
-# 5. Push to ECR
+# 5. Push to ECR (with auto-retry on network disconnect)
 Write-Host ">> [5/5] Pushing image to ECR..." -ForegroundColor Yellow
-docker push "${ECR_URL}/${IMAGE_NAME}:latest"
-if ($LASTEXITCODE -ne 0) { Write-Error "Docker push failed"; exit 1 }
+$maxRetries = 3
+$retryCount = 0
+$pushSuccess = $false
+
+while ($retryCount -lt $maxRetries -and -not $pushSuccess) {
+    $retryCount++
+    if ($retryCount -gt 1) {
+        Write-Host ">> Resuming ECR push (Attempt $retryCount of $maxRetries)..." -ForegroundColor Yellow
+        Start-Sleep -Seconds 3
+    }
+    docker push "${ECR_URL}/${IMAGE_NAME}:latest"
+    if ($LASTEXITCODE -eq 0) {
+        $pushSuccess = $true
+    }
+}
+
+if (-not $pushSuccess) {
+    Write-Error "Docker push failed after $maxRetries attempts. Please check your internet connection."
+    exit 1
+}
 
 Write-Host ">> [SUCCESS] Deployment Complete! Image successfully pushed to ECR." -ForegroundColor Green

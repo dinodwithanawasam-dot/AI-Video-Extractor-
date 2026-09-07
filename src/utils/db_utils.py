@@ -15,7 +15,7 @@ from log import get_logger
 logger = get_logger(__name__)
 load_dotenv(ROOT_DIR / ".env")
 
-TABLE_NAME = "Flipline_Videos"
+TABLE_NAME = os.getenv("DYNAMODB_TABLE_NAME", "Flipline_Videos")
 
 def _convert_floats(obj):
     """Recursively convert all float values to Decimal for DynamoDB compatibility."""

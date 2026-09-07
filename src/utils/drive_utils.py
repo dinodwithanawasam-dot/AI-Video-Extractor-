@@ -56,12 +56,12 @@ def get_drive_service(credentials_path="credentials.json"):
 
 
 def list_mp4_files(service, folder_id):
-    """Lists all .mp4 files inside a specific Google Drive folder."""
+    """Lists all video files (.mp4, .webm, etc.) inside a specific Google Drive folder."""
     if not service:
         return []
 
     try:
-        query = f"'{folder_id}' in parents and mimeType='video/mp4' and trashed=false"
+        query = f"'{folder_id}' in parents and (mimeType contains 'video/' or name contains '.mp4' or name contains '.webm') and trashed=false"
         results = service.files().list(
             q=query,
             spaces='drive',

@@ -5,6 +5,15 @@ from log import get_logger
 
 logger = get_logger(__name__)
 
+ROOT_DIR = Path(__file__).resolve().parent.parent.parent
+
+def get_audio_denoise_filter() -> str:
+    """
+    Subtle low-cut rumble filter (<60Hz) for downstream FFmpeg operations.
+    The primary studio-grade noise reduction is handled losslessly at ingestion via noisereduce.
+    """
+    return "highpass=f=60:poles=2"
+
 def get_video_properties(video_path: str) -> dict:
     """Uses ffprobe to get the width, height, fps, and audio sample rate of a video."""
     cmd = [
@@ -83,14 +92,18 @@ def build_concat_command(
         
     fc += f"[2:v]{scale_pad_filter}[v2];" # Format outro
     
+    # Filter main audio with AI Neural Network noise suppression (RNNoise / arnndn)
+    denoise_filter = get_audio_denoise_filter()
+    fc += f"[1:a]{denoise_filter}[a1];"
+    
     # Concatenate: v0,a0 -> v1,a1 -> v2,a2
-    fc += "[v0][0:a][v1][1:a][v2][2:a]concat=n=3:v=1:a=1[vout][aout]"
+    fc += "[v0][0:a][v1][a1][v2][2:a]concat=n=3:v=1:a=1[vout][aout]"
     
     cmd.extend([
         "-filter_complex", fc,
         "-map", "[vout]",
         "-map", "[aout]",
-        "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
+        "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
         "-c:a", "aac", "-b:a", "192k", "-ac", "2",
         "-movflags", "+faststart",
         out_path
@@ -104,13 +117,14 @@ def build_audio_concat_command(
     outro_audio_path: str,
     out_path: str
 ) -> list:
-    """Builds command to concatenate 3 audio files."""
+    """Builds command to concatenate 3 audio files with AI noise cancellation."""
+    denoise_filter = get_audio_denoise_filter()
     cmd = [
         "ffmpeg", "-y",
         "-i", intro_audio_path,
         "-i", main_audio_path,
         "-i", outro_audio_path,
-        "-filter_complex", "[0:a][1:a][2:a]concat=n=3:v=0:a=1[aout]",
+        "-filter_complex", f"[1:a]{denoise_filter}[a1];[0:a][a1][2:a]concat=n=3:v=0:a=1[aout]",
         "-map", "[aout]",
         "-c:a", "libmp3lame", "-b:a", "192k", "-ac", "2",
         out_path

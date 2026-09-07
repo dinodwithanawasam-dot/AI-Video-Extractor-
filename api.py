@@ -138,7 +138,8 @@ def apply_ffmpeg_processing(video_path: str, with_logo: bool = False) -> str:
             logo_path       = use_logo
         )
     else:
-        # Fallback to old behavior if media files are missing
+        from src.utils.ffmpeg_utils import get_audio_denoise_filter
+        denoise_filter = get_audio_denoise_filter()
         if use_logo:
             cmd = [
                 "ffmpeg", "-y",
@@ -147,18 +148,18 @@ def apply_ffmpeg_processing(video_path: str, with_logo: bool = False) -> str:
                 "-filter_complex",
                 "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
                 "-map", "[vout]", "-map", "0:a",
-                "-af", "afftdn=nf=-25",
-                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "18",
-                "-c:a", "aac", "-b:a", "192k",
+                "-af", denoise_filter,
+                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
+                "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                 str(out_path)
             ]
         else:
             cmd = [
                 "ffmpeg", "-y",
                 "-i", video_path,
-                "-c:v", "copy",
-                "-af", "afftdn=nf=-25",
-                "-c:a", "aac", "-b:a", "192k",
+                "-af", denoise_filter,
+                "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
+                "-c:a", "aac", "-b:a", "192k", "-ac", "2",
                 str(out_path)
             ]
         
@@ -276,11 +277,11 @@ async def process_short(
 
         saved_reels = []
         if reels_data:
-            saved_reels = await run_in_threadpool(cut_and_save_reels, denoised_video_path, reels_data)
+            saved_reels = await run_in_threadpool(cut_and_save_reels, video_path, reels_data)
 
         hl_result = {"mp4": "", "mp3": ""}
         if hl_data:
-            hl_result = await run_in_threadpool(create_highlights_video, denoised_video_path, hl_data)
+            hl_result = await run_in_threadpool(create_highlights_video, video_path, hl_data)
 
         # Merge AI metadata (title, caption, reason) with file paths for each reel
         enriched_reels = []

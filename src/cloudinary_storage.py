@@ -26,10 +26,14 @@ cloudinary.config(
 
 # Mapping file extension → Cloudinary resource_type
 _RESOURCE_TYPE = {
-    ".mp4": "video",
-    ".mp3": "video",   # Cloudinary treats audio as resource_type="video"
-    ".md":  "raw",
-    ".txt": "raw",
+    ".mp4":  "video",
+    ".webm": "video",
+    ".mov":  "video",
+    ".mkv":  "video",
+    ".mp3":  "video",   # Cloudinary treats audio as resource_type="video"
+    ".wav":  "video",
+    ".md":   "raw",
+    ".txt":  "raw",
 }
 
 
@@ -63,13 +67,23 @@ def _upload_one(local_path: str, folder: str, public_id: str) -> str:
 
     try:
         logger.info(f"Uploading {Path(local_path).name} → {folder}/{safe_public_id}")
-        result = cloudinary.uploader.upload(
-            local_path,
-            resource_type = resource_type,
-            folder        = folder,
-            public_id     = safe_public_id,
-            overwrite     = True,
-        )
+        if resource_type == "video":
+            result = cloudinary.uploader.upload_large(
+                local_path,
+                resource_type = resource_type,
+                folder        = folder,
+                public_id     = safe_public_id,
+                overwrite     = True,
+                chunk_size    = 6000000,
+            )
+        else:
+            result = cloudinary.uploader.upload(
+                local_path,
+                resource_type = resource_type,
+                folder        = folder,
+                public_id     = safe_public_id,
+                overwrite     = True,
+            )
         url = result.get("secure_url", "")
         logger.info(f"✓ Uploaded: {Path(local_path).name}")
         return url
@@ -178,9 +192,11 @@ def delete_local_files(results: dict, input_path: str = "", source_video: str = 
     for reel in results.get("reels", []):
         paths_to_delete += [reel.get("mp4", ""), reel.get("mp3", "")]
 
-    # Input file (the original uploaded video)
+    # Input files (the original uploaded video and any converted intermediate video)
     if input_path:
         paths_to_delete.append(input_path)
+    if source_video and source_video != input_path:
+        paths_to_delete.append(source_video)
 
     # Delete all collected output files
     for p in paths_to_delete:
