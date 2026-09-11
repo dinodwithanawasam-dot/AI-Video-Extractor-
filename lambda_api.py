@@ -25,8 +25,9 @@ load_dotenv()
 ROOT_DIR = Path(__file__).resolve().parent
 sys.path.append(str(ROOT_DIR))
 
+from datetime import datetime, timezone, timedelta
 from log import get_logger
-from src.utils.db_utils import get_all_videos
+from src.utils.db_utils import get_all_videos, get_dynamodb_resource, TABLE_NAME
 
 logger = get_logger("Lambda_API")
 
@@ -82,12 +83,13 @@ async def drive_webhook_receive(request: Request):
     folder_id = os.getenv("GDRIVE_INPUT_FOLDER_ID", _INPUT_FOLDER)
     logger.info(f"Checking Google Drive Input Folder: {folder_id}...")
 
+    # Fetch all files currently waiting in the Input folder (up to 50)
     result = service.files().list(
         q=f"'{folder_id}' in parents and trashed=false",
         supportsAllDrives=True,
         includeItemsFromAllDrives=True,
         orderBy="createdTime desc",
-        pageSize=5,
+        pageSize=50,
         fields="files(id, name, mimeType)"
     ).execute()
 
@@ -97,29 +99,83 @@ async def drive_webhook_receive(request: Request):
         logger.warning(f"No files found in Input folder {folder_id}.")
         return {"status": "no_file_found"}
 
-    # Select the first video file or first file
-    f = None
+    # Filter for video files
+    video_files = []
     for item in files:
-        if "video" in item.get("mimeType", "") or item.get("name", "").endswith((".mp4", ".mov", ".mkv", ".avi")):
-            f = item
-            break
+        name = item.get("name", "").lower()
+        mime = item.get("mimeType", "")
+        if "video" in mime or name.endswith((".mp4", ".mov", ".mkv", ".avi", ".webm", ".m4v")):
+            video_files.append(item)
 
-    if not f:
-        f = files[0]
-        logger.info(f"No explicitly typed video found, using top file: {f.get('name')}")
+    if not video_files:
+        video_files = files  # Fallback to all files if mime/extension not matched
 
-    # Push job ticket directly to AWS SQS
+    # Push job tickets directly to AWS SQS
     queue_url = os.getenv("AWS_SQS_QUEUE_URL")
     if not queue_url:
         logger.error("AWS_SQS_QUEUE_URL environment variable is missing")
         raise HTTPException(status_code=500, detail="SQS queue not configured")
 
-    _sqs.send_message(
-        QueueUrl=queue_url,
-        MessageBody=json.dumps({"file_id": f["id"], "file_name": f["name"]})
-    )
-    logger.info(f"Successfully queued SQS job for file: {f['name']} (ID: {f['id']})")
-    return {"status": "queued", "file_name": f["name"], "file_id": f["id"]}
+    dynamodb = get_dynamodb_resource()
+    table = dynamodb.Table(TABLE_NAME) if dynamodb else None
+
+    now = datetime.now(timezone.utc)
+    enqueued = []
+    skipped = []
+
+    for item in video_files:
+        fid = item["id"]
+        fname = item["name"]
+
+        # Deduplication check: Avoid re-queuing if already queued within the last 15 minutes
+        is_recently_queued = False
+        if table:
+            try:
+                resp = table.get_item(Key={"video_id": fid})
+                existing = resp.get("Item")
+                if existing and existing.get("status") == "queued":
+                    queued_at_str = existing.get("queued_at")
+                    if queued_at_str:
+                        q_time = datetime.fromisoformat(queued_at_str.replace("Z", "+00:00"))
+                        if (now - q_time) < timedelta(minutes=15):
+                            is_recently_queued = True
+            except Exception as e:
+                logger.warning(f"Could not verify queue state for {fname}: {e}")
+
+        if is_recently_queued:
+            logger.info(f"Skipping {fname} ({fid}) — already queued recently.")
+            skipped.append({"file_id": fid, "file_name": fname, "reason": "already_queued"})
+            continue
+
+        # Record queue state in DynamoDB
+        if table:
+            try:
+                table.put_item(Item={
+                    "video_id": fid,
+                    "record_type": "video",
+                    "file_name": fname,
+                    "status": "queued",
+                    "queued_at": now.isoformat().replace("+00:00", "Z"),
+                    "created_at": now.isoformat().replace("+00:00", "Z")
+                })
+            except Exception as e:
+                logger.warning(f"Could not record queue state in DB for {fname}: {e}")
+
+        # Send SQS ticket
+        _sqs.send_message(
+            QueueUrl=queue_url,
+            MessageBody=json.dumps({"file_id": fid, "file_name": fname})
+        )
+        logger.info(f"Successfully queued SQS job for file: {fname} (ID: {fid})")
+        enqueued.append({"file_id": fid, "file_name": fname})
+
+    return {
+        "status": "batch_processed",
+        "total_discovered": len(video_files),
+        "enqueued_count": len(enqueued),
+        "enqueued": enqueued,
+        "skipped": skipped
+    }
 
 
 @app.get("/api/videos")
