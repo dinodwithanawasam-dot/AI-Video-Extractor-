@@ -1,0 +1,505 @@
+--- Stream: ecs/flipline-worker/bdb983070b6847f5b7cfac3ba34e0f1c ---
+2026-09-11 08:21:06,951 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 90%
+2026-09-11 08:21:08,346 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 90%
+2026-09-11 08:21:09,667 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 90%
+2026-09-11 08:21:10,862 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 91%
+2026-09-11 08:21:12,068 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 91%
+2026-09-11 08:21:13,288 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 91%
+2026-09-11 08:21:14,370 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 92%
+2026-09-11 08:21:15,708 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 92%
+2026-09-11 08:21:16,874 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 92%
+2026-09-11 08:21:17,948 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 93%
+2026-09-11 08:21:19,357 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 93%
+2026-09-11 08:21:20,886 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 94%
+2026-09-11 08:21:22,269 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 94%
+2026-09-11 08:21:23,529 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 94%
+2026-09-11 08:21:24,921 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 95%
+2026-09-11 08:21:26,332 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 95%
+2026-09-11 08:21:27,321 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 95%
+2026-09-11 08:21:28,598 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 96%
+2026-09-11 08:21:29,837 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 96%
+2026-09-11 08:21:31,114 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 96%
+2026-09-11 08:21:32,300 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 97%
+2026-09-11 08:21:34,050 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 97%
+2026-09-11 08:21:35,221 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 97%
+2026-09-11 08:21:36,472 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 98%
+2026-09-11 08:21:37,643 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 98%
+2026-09-11 08:21:38,681 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 98%
+2026-09-11 08:21:39,579 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 99%
+2026-09-11 08:21:40,479 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 99%
+2026-09-11 08:21:41,394 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 100%
+2026-09-11 08:21:41,394 - src.utils.drive_utils - INFO - ✓ Downloaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4
+2026-09-11 08:21:41,394 - AI_Worker - INFO - [STEP 2/6] Ingesting video & extracting audio...
+2026-09-11 08:21:41,395 - src.ingestion - INFO - Detected local file path.
+2026-09-11 08:21:41,503 - src.utils.audio_enhancer - INFO - [AUDIO ENHANCE] Extracting audio track from Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4...
+2026-09-11 08:21:47,468 - src.utils.audio_enhancer - INFO - [AUDIO ENHANCE] Processing Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_temp_raw.wav with noisereduce...
+/usr/local/lib/python3.11/site-packages/noisereduce/spectralgate/nonstationary.py:70: RuntimeWarning: invalid value encountered in divide
+sig_mult_above_thresh = (abs_sig_stft - sig_stft_smooth) / sig_stft_smooth
+/usr/local/lib/python3.11/site-packages/noisereduce/spectralgate/base.py:164: RuntimeWarning: invalid value encountered in cast
+filtered_chunk[:, pos: pos + end0 - start0] = filtered_chunk0[:, start0:end0]
+2026-09-11 08:23:01,169 - src.utils.audio_enhancer - INFO - [AUDIO ENHANCE] Saved clean audio to /app/data/input/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_temp_clean.wav
+2026-09-11 08:23:18,493 - src.utils.audio_enhancer - INFO - [AUDIO ENHANCE] Remuxing cleaned audio into Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4...
+2026-09-11 08:24:08,387 - src.utils.audio_enhancer - INFO - [AUDIO ENHANCE] Successfully upgraded Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4 with clean audio!
+2026-09-11 08:24:08,438 - AI_Worker - INFO - [STEP 3+4/6] (PARALLEL) Branding video & transcribing audio...
+2026-09-11 08:24:08,438 - src.transcription - INFO - Starting transcription for Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_clean.mp3...
+/usr/local/lib/python3.11/site-packages/whisper/transcribe.py:132: UserWarning: FP16 is not supported on CPU; using FP32 instead
+warnings.warn("FP16 is not supported on CPU; using FP32 instead")
+2026-09-11 08:31:02,016 - src.transcription - INFO - Transcription complete. Found 17 segments. Saved to /app/data/temp/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_clean_transcript.json
+2026-09-11 08:38:48,047 - AI_Worker - INFO - [STEP 5/6] Analyzing transcript with AI...
+2026-09-11 08:38:48,047 - src.ai_logic - INFO - Starting AI analysis of transcript...
+2026-09-11 08:38:50,560 - src.ai_logic - INFO - Sending prompt to LLM (this might take a few moments)...
+2026-09-11 08:38:54,655 - src.ai_logic - INFO - AI returned 2 raw reel(s): ['6.0s-34.0s (28.0s)', '22.0s-50.0s (28.0s)']
+2026-09-11 08:38:54,655 - src.ai_logic - INFO - After enforcement: 2 reel(s):
+2026-09-11 08:38:54,656 - src.ai_logic - INFO - AI analysis complete. 2 valid reels saved to /app/data/temp/ai_analysis.json
+2026-09-11 08:38:54,659 - src.article_generator - INFO - Generating article using AI...
+2026-09-11 08:38:58,583 - src.article_generator - INFO - AI-generated article successfully saved to: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_article.md
+2026-09-11 08:38:58,584 - AI_Worker - INFO - [STEP 6/6] Cutting reels and highlights...
+2026-09-11 08:38:58,584 - src.video_editor - INFO - Extracting 2 reels from Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4...
+2026-09-11 08:39:12,620 - src.video_editor - INFO - Reel 1 done → Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp4
+2026-09-11 08:39:12,655 - src.video_editor - INFO - Reel 2 done → Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp4
+2026-09-11 08:39:12,656 - src.video_editor - INFO - Creating highlights video from 2 segments...
+2026-09-11 08:39:23,142 - src.video_editor - INFO - Saved Highlights MP4 to /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp4
+2026-09-11 08:39:51,016 - AI_Worker - INFO - [UPLOAD] Uploading to Cloudinary folder: auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638
+2026-09-11 08:39:51,017 - src.cloudinary_storage - INFO - Starting parallel upload of 9 files to Cloudinary...
+2026-09-11 08:39:51,017 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_branded.mp4 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_branded
+2026-09-11 08:39:51,018 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_denoised.mp3 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_denoised_audio
+2026-09-11 08:39:51,018 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_article.md → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_article
+2026-09-11 08:39:51,019 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp4 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/highlights
+2026-09-11 08:39:51,019 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp3 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/highlights_audio
+2026-09-11 08:39:51,020 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp4 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/reel_1
+2026-09-11 08:39:51,096 - src.cloudinary_storage - ERROR - Cloudinary upload failed for /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_article.md: public_id (auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_article.md) is invalid
+2026-09-11 08:39:51,096 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp3 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/reel_1_audio
+2026-09-11 08:39:51,223 - src.cloudinary_storage - ERROR - Cloudinary upload failed for /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_branded.mp4: public_id (auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_branded) is invalid
+2026-09-11 08:39:51,223 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp4 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/reel_2
+2026-09-11 08:39:51,287 - src.cloudinary_storage - ERROR - Cloudinary upload failed for /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_denoised.mp3: public_id (auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_denoised_audio) is invalid
+2026-09-11 08:39:51,287 - src.cloudinary_storage - INFO - Uploading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp3 → auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638/reel_2_audio
+2026-09-11 08:39:51,521 - src.cloudinary_storage - INFO - ✓ Uploaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp3
+2026-09-11 08:39:51,583 - src.cloudinary_storage - INFO - ✓ Uploaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp3
+2026-09-11 08:39:51,801 - src.cloudinary_storage - INFO - ✓ Uploaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp3
+2026-09-11 08:39:53,823 - src.cloudinary_storage - INFO - ✓ Uploaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp4
+2026-09-11 08:39:54,107 - src.cloudinary_storage - INFO - ✓ Uploaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp4
+2026-09-11 08:39:54,706 - src.cloudinary_storage - INFO - ✓ Uploaded: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp4
+2026-09-11 08:39:54,706 - src.cloudinary_storage - INFO - All 9 uploads done!
+2026-09-11 08:39:54,950 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_branded.mp4
+2026-09-11 08:39:54,966 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_denoised.mp3
+2026-09-11 08:39:54,966 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_article.md
+2026-09-11 08:39:54,969 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp4
+2026-09-11 08:39:54,969 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_highlights.mp3
+2026-09-11 08:39:54,971 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp4
+2026-09-11 08:39:54,972 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_1.mp3
+2026-09-11 08:39:54,974 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp4
+2026-09-11 08:39:54,974 - src.cloudinary_storage - INFO - Deleted: /app/data/output/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_reel_2.mp3
+2026-09-11 08:39:55,304 - src.cloudinary_storage - INFO - Deleted: /app/data/input/Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4
+2026-09-11 08:39:55,305 - src.cloudinary_storage - INFO - Deleted temp file: Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307)_clean_transcript.json
+2026-09-11 08:39:55,305 - src.cloudinary_storage - INFO - Deleted temp file: ai_analysis.json
+2026-09-11 08:39:55,305 - src.cloudinary_storage - INFO - Local cleanup complete.
+2026-09-11 08:39:55,305 - AI_Worker - INFO - [ARCHIVE] Moving Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4 to Google Drive Archive folder (10_u-a_oRtrvY3vsipq5wN5dy4sxWpeOW)...
+2026-09-11 08:39:56,683 - src.utils.drive_utils - INFO - Successfully moved file 1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn to folder 10_u-a_oRtrvY3vsipq5wN5dy4sxWpeOW
+2026-09-11 08:39:56,683 - AI_Worker - INFO - [JOB DONE] Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4 → folder: auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638
+2026-09-11 08:39:56,683 - AI_Worker - INFO - Job complete. Folder: auto_flipline.internal/Copy_of_VID_-_Panel__Amieyra___Khyati_interview__Recording_2026-09-10_185307__20260911_081638
+2026-09-11 08:39:56,751 - src.utils.db_utils - INFO - Successfully saved record for video_id: 1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn to DynamoDB.
+2026-09-11 08:39:56,752 - AI_Worker - INFO - Job successfully completed. Worker exiting cleanly.
+--- Stream: ecs/flipline-worker/03ad52b4417a4351acdb0c3714839b00 ---
+2026-09-11 08:18:09,497 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 32%
+2026-09-11 08:18:10,466 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 32%
+2026-09-11 08:18:11,490 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 32%
+2026-09-11 08:18:12,562 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 33%
+2026-09-11 08:18:13,632 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 33%
+2026-09-11 08:18:14,732 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 33%
+2026-09-11 08:18:15,684 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:16,799 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:18,348 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:18,920 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:19,847 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:20,564 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:21,718 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 36%
+2026-09-11 08:18:23,253 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 36%
+2026-09-11 08:18:23,881 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:24,889 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:26,149 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:26,824 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:27,884 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:28,934 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:29,946 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:30,976 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:31,685 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:32,906 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:34,370 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:35,063 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:35,990 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:36,915 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:37,830 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:39,019 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:39,889 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:40,835 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:41,890 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:42,994 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:44,274 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:45,288 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:46,281 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:46,949 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:48,040 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:48,767 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:49,714 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:50,805 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:51,814 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:53,195 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:54,360 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:54,739 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:55,926 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:57,077 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:57,845 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:58,945 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:59,946 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:19:01,050 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:01,881 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:03,052 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:03,821 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:05,225 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:06,031 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:07,006 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:07,881 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:08,972 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:09,957 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:11,114 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:12,311 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:13,318 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:14,881 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:15,687 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:16,661 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:17,745 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:18,960 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:19,956 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:20,977 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:22,085 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:23,221 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:24,192 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:25,220 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:26,491 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:27,248 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:28,187 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:29,347 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:30,083 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:31,057 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:32,087 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:32,961 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:34,047 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:35,063 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:36,434 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:37,831 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:39,130 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:44,217 - src.utils.drive_utils - ERROR - Error downloading file 1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn: <HttpError 500 when requesting https://www.googleapis.com/drive/v3/files/1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn?supportsAllDrives=true&alt=media returned "Unknown Error.". Details: "[{}]">
+2026-09-11 08:19:44,423 - AI_Worker - ERROR - Job failed: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+Traceback (most recent call last):
+File "/app/src/worker.py", line 321, in run_worker
+cdn_results = loop.run_until_complete(process_job(job, whisper_model))
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+return future.result()
+^^^^^^^^^^^^^^^
+File "/app/src/worker.py", line 123, in process_job
+raise RuntimeError(f"Failed to download file_id={file_id} from Google Drive.")
+RuntimeError: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+--- Stream: ecs/flipline-worker/31c41403c61f4ce58a9af5d531f627b9 ---
+2026-09-11 08:18:13,558 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 33%
+2026-09-11 08:18:14,571 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 33%
+2026-09-11 08:18:15,594 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:16,966 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:17,969 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:18,596 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:19,546 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:20,586 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:21,531 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 36%
+2026-09-11 08:18:22,987 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 36%
+2026-09-11 08:18:24,039 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:25,299 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:25,993 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:27,039 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:27,887 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:29,309 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:29,652 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:30,644 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:31,669 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:33,119 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:33,870 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:34,598 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:36,134 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:37,196 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:38,120 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:39,230 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:39,946 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:40,887 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:41,909 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:43,152 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:44,166 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:44,746 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:45,827 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:46,873 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:48,028 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:48,796 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:49,627 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:50,594 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:51,617 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:52,567 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:53,869 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:54,850 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:55,855 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:56,744 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:57,752 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:58,992 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:59,961 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:19:01,210 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:02,056 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:02,838 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:03,745 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:04,650 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:05,673 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:06,654 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:07,866 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:08,904 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:10,214 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:11,155 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:12,279 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:13,338 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:14,866 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:15,957 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:16,924 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:17,956 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:18,875 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:19,912 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:21,127 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:21,954 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:23,187 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:24,149 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:25,160 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:26,163 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:27,111 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:28,561 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:29,336 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:30,163 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:31,308 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:31,868 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:33,172 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:34,165 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:35,111 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:36,158 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:37,320 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:38,560 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:39,585 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:40,814 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:41,896 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:42,829 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:47,930 - src.utils.drive_utils - ERROR - Error downloading file 1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn: <HttpError 500 when requesting https://www.googleapis.com/drive/v3/files/1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn?supportsAllDrives=true&alt=media returned "Unknown Error.". Details: "[{}]">
+2026-09-11 08:19:48,212 - AI_Worker - ERROR - Job failed: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+Traceback (most recent call last):
+File "/app/src/worker.py", line 321, in run_worker
+cdn_results = loop.run_until_complete(process_job(job, whisper_model))
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+return future.result()
+^^^^^^^^^^^^^^^
+File "/app/src/worker.py", line 123, in process_job
+raise RuntimeError(f"Failed to download file_id={file_id} from Google Drive.")
+RuntimeError: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+--- Stream: ecs/flipline-worker/c4c8bed47f6040ca983cb0de4de50519 ---
+2026-09-11 08:18:25,637 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:26,747 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:27,834 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:28,898 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:29,821 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:30,671 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:31,663 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:33,237 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:33,828 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:34,756 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:35,864 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:36,865 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:37,906 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:38,974 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:39,982 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:40,813 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:41,803 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:43,115 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:43,807 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:44,728 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:46,338 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:46,747 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:47,574 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:48,551 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:49,544 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:50,706 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:52,051 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:52,950 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:53,845 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:54,850 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:56,366 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:57,292 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:58,006 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:59,044 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:59,936 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:19:01,188 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:01,919 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:02,742 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:03,762 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:04,797 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:05,853 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:06,990 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:07,929 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:08,990 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:10,132 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:11,226 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:12,515 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:13,535 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:14,903 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:15,880 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:16,831 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:17,815 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:19,075 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:20,240 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:20,938 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:22,123 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:23,098 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:24,251 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:25,518 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:26,593 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:27,013 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:28,046 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:28,952 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:29,853 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:30,913 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:31,862 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:33,115 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:34,429 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:35,205 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:36,188 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:37,202 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:38,468 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:39,887 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:40,931 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:42,196 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:43,269 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:43,887 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:44,786 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 65%
+2026-09-11 08:19:46,119 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 65%
+2026-09-11 08:19:46,971 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 65%
+2026-09-11 08:19:47,921 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 66%
+2026-09-11 08:19:49,423 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 66%
+2026-09-11 08:19:50,606 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 66%
+2026-09-11 08:19:51,634 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 67%
+2026-09-11 08:19:52,935 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 67%
+2026-09-11 08:19:54,125 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 68%
+2026-09-11 08:19:55,287 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 68%
+2026-09-11 08:19:56,495 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 68%
+2026-09-11 08:19:56,562 - src.utils.drive_utils - ERROR - Error downloading file 1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn: <HttpError 500 when requesting https://www.googleapis.com/drive/v3/files/1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn?supportsAllDrives=true&alt=media returned "Unknown Error.". Details: "[{}]">
+2026-09-11 08:19:56,712 - AI_Worker - ERROR - Job failed: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+Traceback (most recent call last):
+File "/app/src/worker.py", line 321, in run_worker
+cdn_results = loop.run_until_complete(process_job(job, whisper_model))
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+return future.result()
+^^^^^^^^^^^^^^^
+File "/app/src/worker.py", line 123, in process_job
+raise RuntimeError(f"Failed to download file_id={file_id} from Google Drive.")
+RuntimeError: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+--- Stream: ecs/flipline-worker/e0fc2a3cbf97404386e7ab20bca95440 ---
+2026-09-11 08:18:16,669 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:17,939 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 34%
+2026-09-11 08:18:18,632 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:19,721 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:20,753 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 35%
+2026-09-11 08:18:21,426 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 36%
+2026-09-11 08:18:22,795 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 36%
+2026-09-11 08:18:23,598 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:25,785 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:26,127 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 37%
+2026-09-11 08:18:26,781 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:27,814 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:31,313 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 38%
+2026-09-11 08:18:32,405 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:33,485 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:33,892 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 39%
+2026-09-11 08:18:34,206 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:34,615 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:35,570 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 40%
+2026-09-11 08:18:36,319 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:36,955 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 41%
+2026-09-11 08:18:38,035 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:38,866 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:39,867 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 42%
+2026-09-11 08:18:41,155 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:42,121 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:43,097 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 43%
+2026-09-11 08:18:43,945 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:44,938 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:46,060 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 44%
+2026-09-11 08:18:47,068 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:48,165 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:49,088 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 45%
+2026-09-11 08:18:49,663 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:51,066 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 46%
+2026-09-11 08:18:52,037 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:52,634 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:53,726 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 47%
+2026-09-11 08:18:54,848 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:55,640 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:56,495 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 48%
+2026-09-11 08:18:57,780 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:58,901 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:18:59,948 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 49%
+2026-09-11 08:19:01,042 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:02,052 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:02,899 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 50%
+2026-09-11 08:19:03,867 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:04,880 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:05,739 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 51%
+2026-09-11 08:19:06,870 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:07,804 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 52%
+2026-09-11 08:19:08,994 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:10,035 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:11,028 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 53%
+2026-09-11 08:19:12,923 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:13,658 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:15,000 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 54%
+2026-09-11 08:19:16,113 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:17,091 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:17,971 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 55%
+2026-09-11 08:19:18,958 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:20,068 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:21,034 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 56%
+2026-09-11 08:19:22,184 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:23,265 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 57%
+2026-09-11 08:19:23,944 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:24,886 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:25,928 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 58%
+2026-09-11 08:19:26,898 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:27,978 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:29,059 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 59%
+2026-09-11 08:19:30,000 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:31,112 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:32,335 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 60%
+2026-09-11 08:19:33,206 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:34,054 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:35,125 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 61%
+2026-09-11 08:19:36,516 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:37,804 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 62%
+2026-09-11 08:19:38,490 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:39,621 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:40,683 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 63%
+2026-09-11 08:19:41,708 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:42,695 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:43,618 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 64%
+2026-09-11 08:19:44,688 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 65%
+2026-09-11 08:19:45,571 - src.utils.drive_utils - INFO - Downloading Copy of VID - Panel, Amieyra & Khyati interview (Recording 2026-09-10 185307).mp4: 65%
+2026-09-11 08:19:50,674 - src.utils.drive_utils - ERROR - Error downloading file 1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn: <HttpError 500 when requesting https://www.googleapis.com/drive/v3/files/1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn?supportsAllDrives=true&alt=media returned "Unknown Error.". Details: "[{}]">
+2026-09-11 08:19:50,889 - AI_Worker - ERROR - Job failed: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.
+Traceback (most recent call last):
+File "/app/src/worker.py", line 321, in run_worker
+cdn_results = loop.run_until_complete(process_job(job, whisper_model))
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+return future.result()
+^^^^^^^^^^^^^^^
+File "/app/src/worker.py", line 123, in process_job
+raise RuntimeError(f"Failed to download file_id={file_id} from Google Drive.")
+RuntimeError: Failed to download file_id=1JldmfvPccs8cqE42BaC9eGYzFlopn6Gn from Google Drive.

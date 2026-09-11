@@ -63,7 +63,7 @@ def _upload_one(local_path: str, folder: str, public_id: str) -> str:
 
     ext           = Path(local_path).suffix.lower()
     resource_type = _RESOURCE_TYPE.get(ext, "raw")
-    safe_public_id = Path(public_id).stem  # Cloudinary manages extensions
+    safe_public_id = _sanitize(Path(public_id).stem)  # Cloudinary manages extensions
 
     try:
         logger.info(f"Uploading {Path(local_path).name} → {folder}/{safe_public_id}")
