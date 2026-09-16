@@ -27,7 +27,7 @@ sys.path.append(str(ROOT_DIR))
 
 from datetime import datetime, timezone, timedelta
 from log import get_logger
-from src.utils.db_utils import get_all_videos, get_dynamodb_resource, TABLE_NAME
+from src.utils.db_utils import get_all_videos, get_video_by_id, approve_video, get_dynamodb_resource, TABLE_NAME
 
 logger = get_logger("Lambda_API")
 
@@ -150,10 +150,14 @@ async def drive_webhook_receive(request: Request):
         # Record queue state in DynamoDB
         if table:
             try:
+                is_fliplong = fname.lower().startswith("fliplong")
                 table.put_item(Item={
                     "video_id": fid,
                     "record_type": "video",
                     "file_name": fname,
+                    "source": "fliplong" if is_fliplong else "watchroom_drive",
+                    "is_fliplong": is_fliplong,
+                    "is_approved": not is_fliplong,
                     "status": "queued",
                     "queued_at": now.isoformat().replace("+00:00", "Z"),
                     "created_at": now.isoformat().replace("+00:00", "Z")
@@ -180,14 +184,77 @@ async def drive_webhook_receive(request: Request):
 
 @app.get("/api/videos")
 @app.get("/prod/api/videos")
-async def fetch_videos(limit: int = 50):
-    """Fetches the latest processed video metadata records from DynamoDB."""
+async def fetch_videos(limit: int = 50, approved_only: bool = True):
+    """Fetches the latest processed video metadata records from DynamoDB for Flipline feed."""
     try:
-        videos = await run_in_threadpool(get_all_videos, limit)
+        videos = await run_in_threadpool(get_all_videos, limit, approved_only)
         return {"status": "success", "data": videos}
     except Exception as e:
         logger.error(f"Failed to fetch videos: {e}", exc_info=True)
         raise HTTPException(status_code=500, detail=f"Failed to fetch videos from DB: {str(e)}")
+
+
+@app.get("/api/videos/{video_id}")
+@app.get("/prod/api/videos/{video_id}")
+async def fetch_video_by_id(video_id: str):
+    """
+    Fetches a specific processed video record from DynamoDB using video_id (Google Drive file_id).
+    Returns 'processing' if the worker is still working on it, or 'completed' with all reels & links once finished.
+    """
+    try:
+        video = await run_in_threadpool(get_video_by_id, video_id)
+        if not video:
+            return {
+                "status": "processing",
+                "video_id": video_id,
+                "message": "Video is queued or currently being processed by the AI pipeline."
+            }
+        return {
+            "status": "completed",
+            "video_id": video_id,
+            "data": video
+        }
+    except Exception as e:
+        logger.error(f"Failed to fetch video status for {video_id}: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to fetch video status from DB: {str(e)}")
+
+
+@app.post("/api/videos/{video_id}/approve")
+@app.post("/prod/api/videos/{video_id}/approve")
+async def approve_video_endpoint(video_id: str, request: Request):
+    """
+    Approves a video or specific reels within it.
+    Optional JSON payload:
+      { "reel_index": 0, "is_approved": true }
+      or { "approved_reel_indices": [0, 2] }
+      or empty body / {} to approve all reels.
+    """
+    try:
+        body = {}
+        try:
+            body = await request.json()
+        except Exception:
+            body = {}
+
+        approved = body.get("is_approved", True)
+        reel_index = body.get("reel_index")
+        reel_indices = body.get("approved_reel_indices")
+        approve_highlights = body.get("approve_highlights")
+
+        result = await run_in_threadpool(approve_video, video_id, approved, reel_index, reel_indices, approve_highlights)
+        if not result:
+            raise HTTPException(status_code=404, detail=f"Video {video_id} not found or failed to update.")
+        return {
+            "status": "success",
+            "video_id": video_id,
+            "is_approved": result.get("is_approved"),
+            "reels": result.get("reels", []),
+            "highlights": result.get("highlights", {}),
+            "message": "Approval successfully updated."
+        }
+    except Exception as e:
+        logger.error(f"Failed to approve video {video_id}: {e}", exc_info=True)
+        raise HTTPException(status_code=500, detail=f"Failed to approve video: {str(e)}")
 
 
 # ── AWS Lambda Entrypoint (Mangum) ───────────────────────────────

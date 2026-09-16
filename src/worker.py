@@ -321,18 +321,34 @@ def run_worker():
         cdn_results = loop.run_until_complete(process_job(job, whisper_model))
         logger.info(f"Job complete. Folder: {cdn_results.get('folder')}")
 
+        # Determine source and approval status (FlipLONG user upload vs Watchroom/Drive auto-sync)
+        file_name = job.get("file_name", "")
+        is_fliplong = file_name.lower().startswith("fliplong")
+
+        reels_data = cdn_results.get("reels", [])
+        for r in reels_data:
+            r["is_approved"] = not is_fliplong
+
+        highlights_data = cdn_results.get("highlights", {})
+        if isinstance(highlights_data, dict) and highlights_data:
+            highlights_data["is_approved"] = not is_fliplong
+
         # Save to DynamoDB
         db_record = {
-            "video_id":      job.get("file_id"),
-            "created_at":    datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-            "status":        "success",
-            "main_title":    cdn_results.get("main_title", ""),
-            "summary":       cdn_results.get("summary", ""),
-            "article_path":  cdn_results.get("article_path", ""),
-            "denoised_video":cdn_results.get("denoised_video", ""),
-            "denoised_audio":cdn_results.get("denoised_audio", ""),
-            "highlights":    cdn_results.get("highlights", {}),
-            "reels":         cdn_results.get("reels", [])
+            "video_id":        job.get("file_id"),
+            "file_name":       file_name,
+            "source":          "fliplong" if is_fliplong else "watchroom_drive",
+            "is_fliplong":     is_fliplong,
+            "is_approved":     not is_fliplong,  # Auto-approved for watchroom/drive; pending for user FlipLONG
+            "created_at":      datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
+            "status":          "success",
+            "main_title":      cdn_results.get("main_title", ""),
+            "summary":         cdn_results.get("summary", ""),
+            "article_path":    cdn_results.get("article_path", ""),
+            "denoised_video":  cdn_results.get("denoised_video", ""),
+            "denoised_audio":  cdn_results.get("denoised_audio", ""),
+            "highlights":      highlights_data,
+            "reels":           reels_data
         }
         save_video_record(db_record)
 
