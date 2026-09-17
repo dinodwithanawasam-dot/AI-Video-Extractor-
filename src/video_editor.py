@@ -16,7 +16,7 @@ OUTPUT_DIR = ROOT_DIR / PATHS_CONFIG.get("output_dir", "data/output")
 LOGO_PATH  = ROOT_DIR / "logo" / "branding.jpeg"
 
 
-def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: str, out_mp3: str) -> dict:
+def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: str, out_mp3: str, author_name: str = "") -> dict:
     """
     Uses FFmpeg to cut a segment, optionally apply branding, and optionally prepend/append intro/outro.
     """
@@ -45,12 +45,18 @@ def _ffmpeg_cut_with_logo(video_path: str, start: float, end: float, out_mp4: st
                 out_path = out_mp4,
                 logo_path = use_logo,
                 start_time = start,
-                duration = duration
+                duration = duration,
+                author_name = author_name
             )
         else:
             # Fallback to standard cutting
             if use_logo:
-                filter_complex = "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]"
+                if author_name:
+                    escaped_author = author_name.replace("'", "\\'").replace(":", "\\:")
+                    filter_complex = f"[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout_logo];"
+                    filter_complex += f"[vout_logo]drawtext=text='{escaped_author}':fontcolor=white@0.8:fontsize=h*0.025:x=W-tw-20:y=60+h*0.085:shadowcolor=black@0.5:shadowx=2:shadowy=2[vout]"
+                else:
+                    filter_complex = "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]"
                 video_cmd = [
                     "ffmpeg", "-y",
                     "-ss", str(start), "-t", str(duration),
@@ -107,7 +113,7 @@ def _get_video_duration(video_path: str) -> float:
         return 0.0
 
 
-def cut_and_save_reels(video_path: str, reels_data: list[dict]) -> list[dict]:
+def cut_and_save_reels(video_path: str, reels_data: list[dict], author_name: str = "") -> list[dict]:
     """
     Cuts reels using FFmpeg (fast) and processes them in parallel using threads.
     Returns a list of dicts with 'mp4' and 'mp3' paths for each reel.
@@ -140,7 +146,7 @@ def cut_and_save_reels(video_path: str, reels_data: list[dict]) -> list[dict]:
     saved_reels_map = {}
     with ThreadPoolExecutor(max_workers=min(len(tasks), 4)) as executor:
         futures = {
-            executor.submit(_ffmpeg_cut_with_logo, video_path, start, end, mp4, mp3): idx
+            executor.submit(_ffmpeg_cut_with_logo, video_path, start, end, mp4, mp3, author_name): idx
             for idx, start, end, mp4, mp3 in tasks
         }
         for future in as_completed(futures):
@@ -157,7 +163,7 @@ def cut_and_save_reels(video_path: str, reels_data: list[dict]) -> list[dict]:
     return [saved_reels_map[t[0]] for t in tasks if t[0] in saved_reels_map]
 
 
-def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dict:
+def create_highlights_video(video_path: str, highlights_data: list[dict], author_name: str = "") -> dict:
     """
     Cuts highlight segments and concatenates them into a single video using FFmpeg.
     Returns a dict with 'mp4' and 'mp3' paths.
@@ -236,18 +242,27 @@ def create_highlights_video(video_path: str, highlights_data: list[dict]) -> dic
                 intro_path = str(intro_vid),
                 outro_path = str(outro_vid),
                 out_path = mp4_path,
-                logo_path = use_logo
+                logo_path = use_logo,
+                author_name = author_name
             )
         else:
             from src.utils.ffmpeg_utils import get_audio_denoise_filter
             denoise_filter = get_audio_denoise_filter()
             if use_logo:
-                # Apply logo overlay AND denoise via filter_complex
-                fc = (
-                    f"[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];"
-                    f"[0:v][logo]overlay=W-w-20:20[vout];"
-                    f"[0:a]{denoise_filter}[aout]"
-                )
+                if author_name:
+                    escaped_author = author_name.replace("'", "\\'").replace(":", "\\:")
+                    fc = (
+                        f"[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];"
+                        f"[0:v][logo]overlay=W-w-20:20[vout_logo];"
+                        f"[vout_logo]drawtext=text='{escaped_author}':fontcolor=white@0.8:fontsize=h*0.025:x=W-tw-20:y=60+h*0.085:shadowcolor=black@0.5:shadowx=2:shadowy=2[vout];"
+                        f"[0:a]{denoise_filter}[aout]"
+                    )
+                else:
+                    fc = (
+                        f"[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];"
+                        f"[0:v][logo]overlay=W-w-20:20[vout];"
+                        f"[0:a]{denoise_filter}[aout]"
+                    )
                 video_cmd = [
                     "ffmpeg", "-y",
                     "-i", concat_raw, "-i", use_logo,

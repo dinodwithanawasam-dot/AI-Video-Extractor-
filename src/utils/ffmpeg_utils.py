@@ -51,7 +51,8 @@ def build_concat_command(
     out_path: str,
     logo_path: str = None,
     start_time: float = None,
-    duration: float = None
+    duration: float = None,
+    author_name: str = ""
 ) -> list:
     """
     Builds the FFmpeg command to scale intro and outro to match the main video,
@@ -85,8 +86,14 @@ def build_concat_command(
     fc = f"[0:v]{scale_pad_filter}[v0];"  # Format intro
     
     if logo_path:
-        # Scale logo to 11% of main height, overlay on main video
-        fc += f"[3:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[1:v][logo]overlay=W-w-20:20,setsar=1,fps={fps}[v1];"
+        if author_name:
+            escaped_author = author_name.replace("'", "\\'").replace(":", "\\:")
+            # Scale logo to 11% of main height, overlay on main video
+            fc += f"[3:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[1:v][logo]overlay=W-w-20:20,setsar=1,fps={fps}[v1_logo];"
+            fc += f"[v1_logo]drawtext=text='{escaped_author}':fontcolor=white@0.8:fontsize=h*0.025:x=W-tw-20:y=60+h*0.085:shadowcolor=black@0.5:shadowx=2:shadowy=2[v1];"
+        else:
+            # Scale logo to 11% of main height, overlay on main video
+            fc += f"[3:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[1:v][logo]overlay=W-w-20:20,setsar=1,fps={fps}[v1];"
     else:
         fc += f"[1:v]setsar=1,fps={fps}[v1];" # Just format main video
         

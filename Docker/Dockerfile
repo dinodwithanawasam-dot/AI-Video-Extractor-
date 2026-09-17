@@ -49,10 +49,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
-# Install FFmpeg (the core engine of this project) and other system tools
+# Install FFmpeg (the core engine of this project), fonts for watermarks, and system tools
 RUN apt-get update && apt-get install -y --no-install-recommends \
     ffmpeg \
     curl \
+    fonts-liberation \
+    fontconfig \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy installed Python packages from builder stage

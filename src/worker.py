@@ -36,7 +36,7 @@ from src.utils.db_utils import save_video_record
 logger = get_logger("AI_Worker")
 
 
-def apply_ffmpeg_processing(video_path: str, with_logo: bool = True) -> str:
+def apply_ffmpeg_processing(video_path: str, with_logo: bool = True, author_name: str = "") -> str:
     """Applies noise cancellation, watermark logo, and branding to a video."""
     from src.utils.ffmpeg_utils import build_concat_command
 
@@ -65,18 +65,25 @@ def apply_ffmpeg_processing(video_path: str, with_logo: bool = True) -> str:
             intro_path=str(intro_path),
             outro_path=str(outro_path),
             out_path=str(out_path),
-            logo_path=use_logo
+            logo_path=use_logo,
+            author_name=author_name
         )
     else:
         from src.utils.ffmpeg_utils import get_audio_denoise_filter
         denoise_filter = get_audio_denoise_filter()
         if use_logo:
+            if author_name:
+                escaped_author = author_name.replace("'", "\\'").replace(":", "\\:")
+                fc = f"[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout_logo];"
+                fc += f"[vout_logo]drawtext=text='{escaped_author}':fontcolor=white@0.8:fontsize=h*0.025:x=W-tw-20:y=30+h*0.055:shadowcolor=black@0.5:shadowx=2:shadowy=2[vout]"
+            else:
+                fc = "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]"
+                
             cmd = [
                 "ffmpeg", "-y",
                 "-i", video_path,
                 "-i", use_logo,
-                "-filter_complex",
-                "[1:v]format=yuva420p,colorchannelmixer=aa=0.7,scale=-1:ih*0.055[logo];[0:v][logo]overlay=W-w-20:20[vout]",
+                "-filter_complex", fc,
                 "-map", "[vout]", "-map", "0:a",
                 "-af", denoise_filter,
                 "-c:v", "libx264", "-preset", "ultrafast", "-crf", "22",
@@ -118,6 +125,20 @@ async def process_job(job: dict, whisper_model) -> dict:
     if not service:
         raise RuntimeError("Could not authenticate with Google Drive.")
 
+    author = job.get("author", "")
+    if not author and file_id:
+        try:
+            meta = service.files().get(
+                fileId=file_id, 
+                fields="properties, appProperties", 
+                supportsAllDrives=True
+            ).execute()
+            author = meta.get("properties", {}).get("author", "") or meta.get("appProperties", {}).get("author", "")
+            if author:
+                logger.info(f"Extracted author from Google Drive: {author}")
+        except Exception as e:
+            logger.warning(f"Failed to fetch metadata for {file_id}: {e}")
+
     ok = download_file(service, file_id, source)
     if not ok:
         raise RuntimeError(f"Failed to download file_id={file_id} from Google Drive.")
@@ -132,7 +153,7 @@ async def process_job(job: dict, whisper_model) -> dict:
     # ── Step 3 & 4: FFmpeg branding + Whisper (in parallel) ──────────────
     logger.info("[STEP 3+4/6] (PARALLEL) Branding video & transcribing audio...")
     denoised_video_path, transcript_segments = await asyncio.gather(
-        loop.run_in_executor(None, apply_ffmpeg_processing, video_path, True),
+        loop.run_in_executor(None, apply_ffmpeg_processing, video_path, True, author),
         loop.run_in_executor(None, transcribe_audio, audio_path, whisper_model),
     )
 
@@ -157,12 +178,12 @@ async def process_job(job: dict, whisper_model) -> dict:
     saved_reels = []
     if reels_data:
         saved_reels = await loop.run_in_executor(
-            None, cut_and_save_reels, video_path, reels_data)
+            None, cut_and_save_reels, video_path, reels_data, author)
 
     hl_result = {"mp4": "", "mp3": ""}
     if hl_data:
         hl_result = await loop.run_in_executor(
-            None, create_highlights_video, video_path, hl_data)
+            None, create_highlights_video, video_path, hl_data, author)
 
     # Enrich reels with AI metadata
     enriched_reels = []
